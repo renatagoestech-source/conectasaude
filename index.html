@@ -1,166 +1,159 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Conecta Saúde — Agendamento UBS</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conecta Saúde | Agendamento UBS</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-icon">+</div>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-icon">+</div>
+    <div><strong>Conecta Saúde</strong><span>Agendamento UBS</span></div>
+  </div>
+  <div class="top-actions">
+    <button id="myAppointmentsBtn" class="ghost-btn">Meus agendamentos</button>
+    <button id="staffLoginBtn" class="ghost-btn">Área do funcionário</button>
+    <div id="userGreeting" class="greeting hidden"></div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div>
+      <small>SAÚDE PÚBLICA • SIMPLES E DIGITAL</small>
+      <h1>Agende sua consulta na UBS sem complicação.</h1>
+      <p>Escolha sua unidade, especialidade, data e horário. Acompanhe sua posição na fila.</p>
+    </div>
+    <div class="hero-heart">♥</div>
+  </section>
+
+  <nav class="steps">
+    <div class="step active"><b>1</b><span>Cadastro</span></div><i></i>
+    <div class="step"><b>2</b><span>UBS</span></div><i></i>
+    <div class="step"><b>3</b><span>Especialidade</span></div><i></i>
+    <div class="step"><b>4</b><span>Data e horário</span></div><i></i>
+    <div class="step"><b>5</b><span>Confirmação</span></div>
+  </nav>
+
+  <section id="patientCard" class="card">
+    <div class="section-title"><div class="title-icon">♟</div><div><h2>Identificação</h2><p>Informe seus dados para começar.</p></div></div>
+    <form id="patientForm">
+      <label>Nome completo<input id="name" required placeholder="Digite seu nome completo"></label>
+      <div class="grid-2">
+        <label>Celular<input id="phone" required inputmode="tel" maxlength="15" placeholder="(00) 00000-0000"></label>
+        <label>Cartão SUS<input id="sus" required inputmode="numeric" maxlength="15" placeholder="Digite o número do Cartão SUS"></label>
+      </div>
+      <button class="primary-btn" type="submit">Continuar →</button>
+    </form>
+  </section>
+
+  <section id="ubsSection" class="card hidden">
+    <div class="section-title"><div class="title-icon">⌂</div><div><h2>Escolha sua UBS</h2><p>Selecione a unidade onde deseja ser atendido.</p></div></div>
+    <div id="ubsGrid" class="ubs-grid"></div>
+  </section>
+
+  <section id="specialtySection" class="card hidden">
+    <button class="back-btn" data-target="ubsSection">← Voltar</button>
+    <div class="section-title"><div class="title-icon">✚</div><div><h2 id="specialtyTitle">Especialidade</h2><p>Escolha o tipo de atendimento.</p></div></div>
+    <div id="specialtyGrid" class="specialty-grid"></div>
+  </section>
+
+  <section id="scheduleSection" class="card hidden">
+    <button class="back-btn" data-target="specialtySection">← Voltar</button>
+    <div class="section-title"><div class="title-icon">▣</div><div><h2>Data e horário</h2><p id="scheduleSubtitle"></p></div></div>
+    <div class="schedule-layout">
       <div>
-        <strong>Conecta Saúde</strong>
-        <span>Agendamento UBS</span>
+        <h3>Escolha uma data</h3>
+        <div id="calendar" class="calendar"></div>
+        <div class="legend"><span><b class="dot available"></b> Dia disponível</span><span><b class="dot unavailable"></b> Fim de semana/feriado</span></div>
+      </div>
+      <div>
+        <h3 id="selectedDateLabel">Selecione uma data</h3>
+        <div class="period-heading">Manhã <span>até 10 consultas</span></div>
+        <div id="morningSlots" class="slots"></div>
+        <div class="period-heading">Tarde <span>até 10 consultas</span></div>
+        <div id="afternoonSlots" class="slots"></div>
+        <p class="queue-note">Cada horário representa uma posição de atendimento. Quando todos os horários do período forem ocupados, novas marcações ficam bloqueadas.</p>
       </div>
     </div>
-    <button id="staffBtn" class="ghost-btn" type="button">Painel da UBS</button>
-    <div id="userGreeting" class="greeting hidden"></div>
-  </header>
+  </section>
 
-  <main class="container">
-    <section class="hero">
-      <div>
-        <small>SAÚDE PÚBLICA • SIMPLES E DIGITAL</small>
-        <h1>Agende sua consulta na UBS sem complicação.</h1>
-        <p>Escolha sua unidade, especialidade, data e horário. Ao finalizar, veja sua posição na fila.</p>
+  <section id="confirmationSection" class="card hidden">
+    <div class="success-icon">✓</div>
+    <h2>Consulta agendada!</h2>
+    <p id="confirmationText"></p>
+    <div id="queueBox" class="queue-box"></div>
+    <div class="notice">🔔 <strong>Lembrete:</strong> nesta versão, o lembrete é simulado no navegador. Um sistema real pode enviar SMS ou WhatsApp pelo servidor.</div>
+    <button id="goAppointments" class="primary-btn">Ver meus agendamentos</button>
+  </section>
+
+  <section id="appointmentsSection" class="card hidden">
+    <div class="section-title"><div class="title-icon">◷</div><div><h2>Meus agendamentos</h2><p>Consulte, cancele ou reagende suas consultas.</p></div></div>
+    <div id="appointmentsList"></div>
+  </section>
+
+  <section id="infoSection" class="card">
+    <div class="section-title"><div class="title-icon">i</div><div><h2>Informações das unidades</h2><p>Horários, campanhas, documentos, contatos e equipe.</p></div></div>
+    <div id="infoTabs" class="tabs"></div>
+    <div id="infoContent"></div>
+  </section>
+</main>
+
+<!-- LOGIN FUNCIONÁRIO -->
+<div id="loginModal" class="modal hidden">
+  <div class="modal-box login-box">
+    <button class="close" data-close="loginModal">×</button>
+    <div class="section-title"><div class="title-icon">🔐</div><div><h2>Área do funcionário</h2><p>Acesso exclusivo da equipe da UBS.</p></div></div>
+    <form id="loginForm">
+      <label>Usuário<input id="loginUser" required placeholder="Ex.: admin"></label>
+      <label>Senha<input id="loginPass" type="password" required placeholder="Digite sua senha"></label>
+      <button class="primary-btn" type="submit">Entrar no painel</button>
+    </form>
+    <div class="demo-login"><strong>Acesso demonstrativo</strong><br>Usuário: <b>admin</b> &nbsp; Senha: <b>1234</b></div>
+  </div>
+</div>
+
+<!-- PAINEL UBS -->
+<div id="panelModal" class="modal hidden">
+  <div class="modal-box panel-box">
+    <button class="close" data-close="panelModal">×</button>
+    <div class="panel-header">
+      <div><h2>Painel da UBS</h2><p>Gerencie equipe e consultas.</p></div>
+      <button id="logoutBtn" class="ghost-btn">Sair</button>
+    </div>
+
+    <div class="panel-tabs">
+      <button class="panel-tab active" data-panel="dashboard">📊 Consultas</button>
+      <button class="panel-tab" data-panel="employees">👥 Funcionários</button>
+    </div>
+
+    <div id="dashboardPanel" class="panel-content">
+      <div class="filter-row">
+        <label>UBS<select id="panelUBS"></select></label>
+        <label>Data<input id="panelDate" type="date"></label>
+        <label>Especialidade<select id="panelSpecialty"></select></label>
+        <label>Período<select id="panelPeriod"><option value="all">Todos</option><option value="manha">Manhã</option><option value="tarde">Tarde</option></select></label>
       </div>
-      <div class="hero-heart">♥</div>
-    </section>
+      <div id="dashboardStats" class="stats"></div>
+      <div id="panelAppointments"></div>
+    </div>
 
-    <nav class="steps" aria-label="Etapas">
-      <div class="step active"><b>1</b><span>Cadastro</span></div>
-      <i></i><div class="step"><b>2</b><span>UBS</span></div>
-      <i></i><div class="step"><b>3</b><span>Especialidade</span></div>
-      <i></i><div class="step"><b>4</b><span>Data e horário</span></div>
-      <i></i><div class="step"><b>5</b><span>Confirmação</span></div>
-    </nav>
-
-    <section id="appCard" class="card">
-      <div class="section-title">
-        <div class="title-icon">♟</div>
-        <div>
-          <h2>Identificação</h2>
-          <p>Informe seus dados para começar.</p>
-        </div>
-      </div>
-
-      <form id="patientForm">
-        <label>Nome completo
-          <input id="name" required placeholder="Digite seu nome completo">
-        </label>
-        <div class="grid-2">
-          <label>Celular
-            <input id="phone" required inputmode="tel" placeholder="(00) 00000-0000" maxlength="15">
-          </label>
-          <label>Cartão SUS
-            <input id="sus" required inputmode="numeric" placeholder="Digite o número do Cartão SUS" maxlength="18">
-          </label>
-        </div>
-        <button class="primary-btn" type="submit">Continuar <span>→</span></button>
+    <div id="employeesPanel" class="panel-content hidden">
+      <div class="filter-row"><label>UBS<select id="employeeUBS"></select></label></div>
+      <div id="employeeList" class="employee-list"></div>
+      <h3>Cadastrar funcionário</h3>
+      <form id="employeeForm" class="employee-form">
+        <input id="employeeName" required placeholder="Nome completo">
+        <input id="employeeRole" required placeholder="Função">
+        <button class="primary-btn" type="submit">Cadastrar</button>
       </form>
-    </section>
-
-    <section id="ubsSection" class="card hidden">
-      <div class="section-title">
-        <div class="title-icon">⌂</div>
-        <div><h2>Escolha sua UBS</h2><p>Selecione a unidade onde deseja ser atendido.</p></div>
-      </div>
-      <div id="ubsGrid" class="ubs-grid"></div>
-    </section>
-
-    <section id="specialtySection" class="card hidden">
-      <button class="back-btn" data-back="ubsSection">← Voltar</button>
-      <div class="section-title">
-        <div class="title-icon">✚</div>
-        <div><h2 id="specialtyTitle">Especialidade</h2><p>Escolha o tipo de atendimento.</p></div>
-      </div>
-      <div id="specialtyGrid" class="specialty-grid"></div>
-    </section>
-
-    <section id="scheduleSection" class="card hidden">
-      <button class="back-btn" data-back="specialtySection">← Voltar</button>
-      <div class="section-title">
-        <div class="title-icon">▣</div>
-        <div><h2>Data e horário</h2><p id="scheduleSubtitle"></p></div>
-      </div>
-      <div class="schedule-layout">
-        <div>
-          <h3>Escolha uma data</h3>
-          <div id="calendar" class="calendar"></div>
-          <div class="legend">
-            <span><b class="dot available"></b> Disponível</span>
-            <span><b class="dot unavailable"></b> Fim de semana/feriado</span>
-          </div>
-        </div>
-        <div>
-          <h3 id="selectedDateLabel">Selecione uma data</h3>
-          <div id="periods" class="periods"></div>
-          <p class="queue-note">São liberadas até <strong>10 vagas pela manhã</strong> e <strong>10 vagas à tarde</strong> por especialidade e dia.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="confirmationSection" class="card hidden">
-      <div class="success-icon">✓</div>
-      <h2>Consulta agendada!</h2>
-      <p id="confirmationText"></p>
-      <div id="queueBox" class="queue-box"></div>
-      <div class="notice"><strong>🔔 Lembrete:</strong> o sistema pode lembrar você da consulta. Nesta versão demonstrativa, o aviso é exibido na tela.</div>
-      <button id="newAppointment" class="primary-btn">Fazer novo agendamento</button>
-    </section>
-
-    <section id="infoSection" class="card">
-      <div class="section-title">
-        <div class="title-icon">i</div>
-        <div><h2>Informações das unidades</h2><p>Horários, campanhas, documentos, contatos e equipe.</p></div>
-      </div>
-      <div id="infoTabs" class="tabs"></div>
-      <div id="infoContent"></div>
-    </section>
-
-    <section id="myAppointments" class="card hidden">
-      <div class="section-title">
-        <div class="title-icon">◷</div>
-        <div><h2>Meus agendamentos</h2><p>Acompanhe suas consultas neste dispositivo.</p></div>
-      </div>
-      <div id="appointmentsList"></div>
-    </section>
-  </main>
-
-  <div id="staffModal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="modal-box">
-      <button class="close" id="closeStaff">×</button>
-      <div class="section-title">
-        <div class="title-icon">⚙</div>
-        <div><h2>Painel da UBS</h2><p>Cadastro e gerenciamento de funcionários.</p></div>
-      </div>
-      <div class="staff-login">
-        <label>Unidade
-          <select id="staffUBS"></select>
-        </label>
-        <label>Senha demonstrativa
-          <input id="staffPassword" type="password" placeholder="1234">
-        </label>
-        <button id="staffLoginBtn" class="primary-btn">Entrar</button>
-      </div>
-      <div id="staffPanel" class="hidden">
-        <hr>
-        <h3>Funcionários cadastrados</h3>
-        <div id="staffList"></div>
-        <h3>Adicionar funcionário</h3>
-        <form id="staffForm" class="staff-form">
-          <input id="staffName" required placeholder="Nome completo">
-          <input id="staffRole" required placeholder="Função">
-          <button class="primary-btn" type="submit">Cadastrar funcionário</button>
-        </form>
-        <p class="small-note">Demonstração: a senha é apenas para simular o acesso. Em produção, use autenticação segura no servidor.</p>
-      </div>
     </div>
   </div>
+</div>
 
-  <div id="toast" class="toast"></div>
-  <script src="script.js"></script>
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
 </body>
 </html>
