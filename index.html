@@ -2,32 +2,18 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Conecta Saúde - Agendamento UBS</title>
 
-    <meta
-        name="description"
-        content="Conecta Saúde - Agendamento de consultas nas UBS"
-    >
-
-    <title>Conecta Saúde | Agendamento UBS</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header class="topbar">
-
-    <div class="brand">
-        <div class="brand-icon">♥</div>
-
+    <div class="logo-area">
+        <div class="logo-icon">✚</div>
         <div>
             <strong>Conecta Saúde</strong>
             <span>Agendamento UBS</span>
@@ -35,631 +21,828 @@
     </div>
 
     <div class="header-actions">
-
-        <button
-            type="button"
-            class="header-btn"
-            id="myAppointmentsBtn"
-        >
-            Meus agendamentos
+        <button id="myAppointmentsBtn" class="header-btn">
+            📅 Meus agendamentos
         </button>
 
-        <button
-            type="button"
-            class="header-btn primary"
-            id="staffLoginBtn"
-        >
-            Área do funcionário
+        <button id="employeeLoginBtn" class="header-btn">
+            🔐 Área do funcionário
         </button>
-
     </div>
-
 </header>
 
 
 <main>
 
     <!-- HERO -->
-
     <section class="hero">
 
         <div class="hero-content">
 
-            <span class="eyebrow">
+            <span class="hero-tag">
                 SAÚDE PÚBLICA • SIMPLES E DIGITAL
             </span>
 
             <h1>
                 Agende sua consulta na UBS
-                <span>sem complicação.</span>
+                <strong>sem complicação.</strong>
             </h1>
 
             <p>
                 Escolha sua unidade, especialidade, data e horário.
-                Consulte sua posição na fila e acompanhe seu atendimento.
+                Acompanhe seu agendamento de forma simples e organizada.
             </p>
 
-            <div class="hero-buttons">
+            <div class="steps">
 
-                <button
-                    type="button"
-                    class="hero-btn"
-                    id="startBtn"
-                >
-                    Começar agendamento
-                </button>
+                <div class="step active">
+                    <span>1</span>
+                    <label>Cadastro</label>
+                </div>
 
-                <button
-                    type="button"
-                    class="hero-link"
-                    id="notificationBtn"
-                >
-                    🔔 Ativar lembretes
-                </button>
+                <div class="line"></div>
+
+                <div class="step">
+                    <span>2</span>
+                    <label>UBS</label>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="step">
+                    <span>3</span>
+                    <label>Especialidade</label>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="step">
+                    <span>4</span>
+                    <label>Data e horário</label>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="step">
+                    <span>5</span>
+                    <label>Confirmação</label>
+                </div>
 
             </div>
 
-        </div>
-
-        <div class="hero-card">
-
-            <div class="hero-card-icon">
-                ✓
-            </div>
-
-            <strong>
-                Agendamento rápido
-            </strong>
-
-            <span>
-                Escolha o melhor horário para você.
-            </span>
-
-        </div>
-
-    </section>
-
-
-    <!-- ETAPAS -->
-
-    <section class="steps">
-
-        <div class="step active">
-            <div class="step-number">1</div>
-            <span>Cadastro</span>
-        </div>
-
-        <div class="step-line"></div>
-
-        <div class="step">
-            <div class="step-number">2</div>
-            <span>UBS</span>
-        </div>
-
-        <div class="step-line"></div>
-
-        <div class="step">
-            <div class="step-number">3</div>
-            <span>Especialidade</span>
-        </div>
-
-        <div class="step-line"></div>
-
-        <div class="step">
-            <div class="step-number">4</div>
-            <span>Data e horário</span>
-        </div>
-
-        <div class="step-line"></div>
-
-        <div class="step">
-            <div class="step-number">5</div>
-            <span>Confirmação</span>
         </div>
 
     </section>
 
 
     <!-- CADASTRO -->
+    <section class="container">
 
-    <section
-        class="section card"
-        id="patientCard"
-    >
+        <div id="patientCard" class="card">
 
-        <div class="section-heading">
+            <div class="section-title">
+                <span class="section-number">1</span>
 
-            <div>
-                <span class="section-kicker">
-                    ETAPA 1
-                </span>
-
-                <h2>
-                    Identificação
-                </h2>
-
-                <p>
-                    Informe seus dados para realizar o agendamento.
-                </p>
+                <div>
+                    <h2>Identificação</h2>
+                    <p>Informe seus dados para continuar.</p>
+                </div>
             </div>
 
-            <div class="section-icon">
-                👤
-            </div>
+            <form id="patientForm">
 
-        </div>
+                <div class="form-grid">
 
+                    <div class="field">
+                        <label for="name">Nome completo</label>
 
-        <form id="patientForm">
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Digite seu nome completo"
+                            required
+                        >
+                    </div>
 
-            <div class="form-grid">
+                    <div class="field">
+                        <label for="phone">Celular</label>
 
-                <div class="form-group">
+                        <input
+                            type="tel"
+                            id="phone"
+                            placeholder="(87) 99999-9999"
+                            maxlength="15"
+                            required
+                        >
+                    </div>
 
-                    <label for="name">
-                        Nome completo
-                    </label>
+                    <div class="field">
+                        <label for="sus">Cartão SUS</label>
 
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Digite seu nome completo"
-                        required
-                    >
+                        <input
+                            type="text"
+                            id="sus"
+                            placeholder="Digite o número do Cartão SUS"
+                            maxlength="15"
+                            required
+                        >
+                    </div>
 
                 </div>
 
-
-                <div class="form-group">
-
-                    <label for="phone">
-                        Celular
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="phone"
-                        placeholder="(00) 00000-0000"
-                        maxlength="15"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="sus">
-                        Cartão SUS
-                    </label>
-
-                    <input
-                        type="text"
-                        id="sus"
-                        placeholder="Digite o número do Cartão SUS"
-                        maxlength="15"
-                        inputmode="numeric"
-                        required
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div class="form-footer">
-
-                <small>
-                    Seus dados são utilizados para o agendamento.
-                </small>
-
-                <button
-                    type="submit"
-                    class="btn primary"
-                >
-                    Continuar
+                <button class="primary-btn" type="submit">
+                    Continuar →
                 </button>
 
-            </div>
-
-        </form>
-
-    </section>
-
-
-    <!-- UBS -->
-
-    <section
-        class="section card hidden"
-        id="ubsSection"
-    >
-
-        <div class="section-heading">
-
-            <div>
-
-                <span class="section-kicker">
-                    ETAPA 2
-                </span>
-
-                <h2>
-                    Escolha sua UBS
-                </h2>
-
-                <p>
-                    Selecione a unidade onde deseja ser atendido.
-                </p>
-
-            </div>
-
-            <div class="section-icon">
-                🏥
-            </div>
+            </form>
 
         </div>
 
 
-        <div
-            class="ubs-grid"
-            id="ubsGrid"
-        ></div>
+        <!-- UBS -->
+        <section id="ubsSection" class="hidden">
 
-    </section>
+            <div class="section-heading">
+                <span class="section-number">2</span>
 
-
-    <!-- ESPECIALIDADE -->
-
-    <section
-        class="section card hidden"
-        id="specialtySection"
-    >
-
-        <div class="section-heading">
-
-            <div>
-
-                <span class="section-kicker">
-                    ETAPA 3
-                </span>
-
-                <h2 id="specialtyTitle">
-                    Escolha a especialidade
-                </h2>
-
-                <p>
-                    Selecione o tipo de atendimento.
-                </p>
-
+                <div>
+                    <h2>Escolha sua UBS</h2>
+                    <p>
+                        Selecione a unidade onde deseja ser atendido.
+                    </p>
+                </div>
             </div>
 
-            <div class="section-icon">
-                🩺
-            </div>
+            <div id="ubsGrid" class="ubs-grid"></div>
 
-        </div>
+        </section>
 
 
-        <div
-            class="specialty-grid"
-            id="specialtyGrid"
-        ></div>
+        <!-- DETALHES DA UBS -->
+        <section id="ubsDetailsSection" class="hidden">
 
-    </section>
+            <div class="card ubs-details-card">
 
+                <button id="backToUBS" class="back-btn">
+                    ← Voltar para UBS
+                </button>
 
-    <!-- AGENDA -->
+                <div class="ubs-detail-header">
 
-    <section
-        class="section card hidden"
-        id="scheduleSection"
-    >
+                    <div>
+                        <span class="small-tag">UNIDADE SELECIONADA</span>
 
-        <div class="section-heading">
+                        <h2 id="selectedUBSTitle">
+                            UBS
+                        </h2>
 
-            <div>
+                        <p id="selectedUBSAddress"></p>
+                    </div>
 
-                <span class="section-kicker">
-                    ETAPA 4
-                </span>
+                    <div class="ubs-contact">
+                        <strong id="selectedUBSPhone"></strong>
+                        <span id="selectedUBSHours"></span>
+                    </div>
 
-                <h2>
-                    Data e horário
-                </h2>
-
-                <p id="scheduleSubtitle">
-                    Escolha uma data disponível.
-                </p>
-
-            </div>
-
-            <div class="section-icon">
-                📅
-            </div>
-
-        </div>
+                </div>
 
 
-        <div class="schedule-layout">
-
-            <div class="calendar-box">
-
-                <div class="calendar-header">
+                <div class="info-tabs">
 
                     <button
-                        type="button"
-                        id="prevMonth"
-                    >
-                        ‹
+                        class="info-tab active"
+                        data-info="services">
+                        Serviços
                     </button>
 
-                    <strong id="calendarTitle">
-                        Calendário
-                    </strong>
+                    <button
+                        class="info-tab"
+                        data-info="campaigns">
+                        Campanhas
+                    </button>
 
                     <button
-                        type="button"
-                        id="nextMonth"
-                    >
-                        ›
+                        class="info-tab"
+                        data-info="documents">
+                        Documentos
+                    </button>
+
+                    <button
+                        class="info-tab"
+                        data-info="employees">
+                        Funcionários
                     </button>
 
                 </div>
+
+
+                <div id="ubsInfoContent" class="info-content"></div>
+
+
+                <!-- ESPECIALIDADES SÓ APARECEM DENTRO DA UBS -->
+
+                <div class="specialty-area">
+
+                    <div class="section-title">
+                        <span class="section-number">3</span>
+
+                        <div>
+                            <h2>Escolha a especialidade</h2>
+                            <p>
+                                Selecione o tipo de atendimento desejado.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        id="specialtyGrid"
+                        class="specialty-grid">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AGENDA -->
+        <section id="scheduleSection" class="hidden">
+
+            <div class="card">
+
+                <button id="backToUBSDetails" class="back-btn">
+                    ← Voltar
+                </button>
+
+                <div class="section-title">
+
+                    <span class="section-number">4</span>
+
+                    <div>
+                        <h2>Data e horário</h2>
+
+                        <p id="scheduleSubtitle">
+                            Escolha uma data disponível.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="schedule-layout">
+
+                    <div>
+
+                        <h3>Escolha a data</h3>
+
+                        <div id="calendar" class="calendar"></div>
+
+                    </div>
+
+
+                    <div class="time-area">
+
+                        <div class="selected-date">
+                            <strong>Data selecionada:</strong>
+
+                            <span id="selectedDateLabel">
+                                Nenhuma data
+                            </span>
+                        </div>
+
+
+                        <h3>Horários da manhã</h3>
+
+                        <div
+                            id="morningSlots"
+                            class="time-grid">
+                        </div>
+
+
+                        <h3>Horários da tarde</h3>
+
+                        <div
+                            id="afternoonSlots"
+                            class="time-grid">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONFIRMAÇÃO -->
+        <section id="confirmationSection" class="hidden">
+
+            <div class="card confirmation-card">
+
+                <div class="success-icon">
+                    ✓
+                </div>
+
+                <h2>Consulta agendada!</h2>
+
+                <p id="confirmationText"></p>
+
+                <div id="queueBox" class="queue-box"></div>
+
+                <div class="confirmation-actions">
+
+                    <button
+                        id="printConfirmation"
+                        class="primary-btn">
+                        🖨️ Imprimir comprovante
+                    </button>
+
+                    <button
+                        id="newAppointment"
+                        class="secondary-btn">
+                        Novo agendamento
+                    </button>
+
+                    <button
+                        id="viewAppointments"
+                        class="secondary-btn">
+                        Ver meus agendamentos
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MEUS AGENDAMENTOS -->
+        <section
+            id="appointmentsSection"
+            class="hidden">
+
+            <div class="card">
+
+                <button
+                    id="closeAppointments"
+                    class="back-btn">
+                    ← Voltar
+                </button>
+
+                <div class="section-title">
+
+                    <span class="section-number">
+                        📅
+                    </span>
+
+                    <div>
+                        <h2>Meus agendamentos</h2>
+                        <p>
+                            Consulte, cancele ou reagende suas consultas.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div id="appointmentsList"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ÁREA DO ADMIN -->
+        <section id="adminInfoSection" class="hidden">
+
+            <div class="card">
+
+                <div class="admin-header">
+
+                    <div>
+                        <span class="small-tag">
+                            ÁREA ADMINISTRATIVA
+                        </span>
+
+                        <h2 id="adminPanelTitle">
+                            Painel da UBS
+                        </h2>
+
+                        <p id="adminPanelSubtitle"></p>
+                    </div>
+
+                    <button
+                        id="logoutBtn"
+                        class="danger-btn">
+                        Sair
+                    </button>
+
+                </div>
+
+
+                <div class="admin-tabs">
+
+                    <button
+                        class="admin-tab active"
+                        data-admin-tab="dashboard">
+                        📊 Visão geral
+                    </button>
+
+                    <button
+                        class="admin-tab"
+                        data-admin-tab="information">
+                        🏥 Informações
+                    </button>
+
+                    <button
+                        class="admin-tab"
+                        data-admin-tab="employees">
+                        👥 Funcionários
+                    </button>
+
+                    <button
+                        class="admin-tab"
+                        data-admin-tab="specialties">
+                        🩺 Especialidades
+                    </button>
+
+                    <button
+                        class="admin-tab"
+                        data-admin-tab="appointments">
+                        📅 Consultas
+                    </button>
+
+                    <button
+                        class="admin-tab developer-only"
+                        data-admin-tab="ubs">
+                        🏥 UBSs
+                    </button>
+
+                </div>
+
+
+                <!-- DASHBOARD -->
 
                 <div
-                    class="calendar"
-                    id="calendar"
-                ></div>
+                    id="adminDashboard"
+                    class="admin-content">
 
-                <div class="calendar-legend">
-
-                    <span>
-                        <i class="available-dot"></i>
-                        Disponível
-                    </span>
-
-                    <span>
-                        <i class="blocked-dot"></i>
-                        Indisponível
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="times-box">
-
-                <div class="selected-date">
-                    <span>Data selecionada</span>
-                    <strong id="selectedDateLabel">
-                        Selecione uma data
-                    </strong>
-                </div>
-
-
-                <div class="period">
-
-                    <div class="period-title">
-                        ☀️ Manhã
+                    <div
+                        id="dashboardStats"
+                        class="stats-grid">
                     </div>
 
                     <div
-                        class="time-grid"
-                        id="morningSlots"
-                    ></div>
+                        id="dashboardSummary"
+                        class="dashboard-summary">
+                    </div>
 
                 </div>
 
 
-                <div class="period">
+                <!-- INFORMAÇÕES -->
 
-                    <div class="period-title">
-                        🌙 Tarde
+                <div
+                    id="adminInformation"
+                    class="admin-content hidden">
+
+                    <form id="ubsInformationForm">
+
+                        <div class="form-grid">
+
+                            <div class="field">
+                                <label>Nome da UBS</label>
+
+                                <input
+                                    id="editUBSName"
+                                    required>
+                            </div>
+
+                            <div class="field">
+                                <label>Endereço</label>
+
+                                <input
+                                    id="editUBSAddress"
+                                    required>
+                            </div>
+
+                            <div class="field">
+                                <label>Telefone</label>
+
+                                <input
+                                    id="editUBSPhone"
+                                    required>
+                            </div>
+
+                            <div class="field">
+                                <label>Horário de funcionamento</label>
+
+                                <input
+                                    id="editUBSHours"
+                                    required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                Serviços oferecidos
+                            </label>
+
+                            <textarea
+                                id="editServices"
+                                rows="5"
+                                placeholder="Um serviço por linha">
+                            </textarea>
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                Campanhas
+                            </label>
+
+                            <textarea
+                                id="editCampaigns"
+                                rows="5"
+                                placeholder="Uma campanha por linha">
+                            </textarea>
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                Documentos necessários
+                            </label>
+
+                            <textarea
+                                id="editDocuments"
+                                rows="5"
+                                placeholder="Um documento por linha">
+                            </textarea>
+
+                        </div>
+
+
+                        <button
+                            class="primary-btn"
+                            type="submit">
+                            💾 Salvar informações
+                        </button>
+
+                    </form>
+
+
+                    <hr>
+
+
+                    <h3>Usuário e senha da UBS</h3>
+
+                    <form id="credentialsForm">
+
+                        <div class="form-grid">
+
+                            <div class="field">
+
+                                <label>Usuário</label>
+
+                                <input
+                                    id="editUsername"
+                                    required>
+
+                            </div>
+
+                            <div class="field">
+
+                                <label>Nova senha</label>
+
+                                <input
+                                    id="editPassword"
+                                    type="password"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="primary-btn"
+                            type="submit">
+                            🔐 Alterar acesso
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- FUNCIONÁRIOS -->
+
+                <div
+                    id="adminEmployees"
+                    class="admin-content hidden">
+
+                    <h3>Funcionários da UBS</h3>
+
+                    <div
+                        id="adminEmployeeList"
+                        class="admin-list">
+                    </div>
+
+
+                    <form
+                        id="employeeForm"
+                        class="add-form">
+
+                        <h3>
+                            Adicionar funcionário
+                        </h3>
+
+                        <div class="form-grid">
+
+                            <div class="field">
+
+                                <label>Nome</label>
+
+                                <input
+                                    id="employeeName"
+                                    required>
+
+                            </div>
+
+                            <div class="field">
+
+                                <label>Cargo / função</label>
+
+                                <input
+                                    id="employeeRole"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="primary-btn"
+                            type="submit">
+                            + Adicionar funcionário
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- ESPECIALIDADES -->
+
+                <div
+                    id="adminSpecialties"
+                    class="admin-content hidden">
+
+                    <h3>
+                        Especialidades disponíveis
+                    </h3>
+
+                    <div
+                        id="adminSpecialtyList"
+                        class="admin-list">
+                    </div>
+
+
+                    <form
+                        id="specialtyForm"
+                        class="add-form">
+
+                        <h3>
+                            Adicionar especialidade
+                        </h3>
+
+                        <div class="form-grid">
+
+                            <div class="field">
+
+                                <label>Nome</label>
+
+                                <input
+                                    id="specialtyName"
+                                    required>
+
+                            </div>
+
+                            <div class="field">
+
+                                <label>Descrição</label>
+
+                                <input
+                                    id="specialtyDescription"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="primary-btn">
+                            + Adicionar especialidade
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- CONSULTAS -->
+
+                <div
+                    id="adminAppointments"
+                    class="admin-content hidden">
+
+                    <div class="filter-grid">
+
+                        <div class="field">
+
+                            <label>Data</label>
+
+                            <input
+                                type="date"
+                                id="adminDate">
+
+                        </div>
+
+                        <div class="field">
+
+                            <label>Especialidade</label>
+
+                            <select id="adminSpecialtyFilter">
+
+                                <option value="">
+                                    Todas
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="adminAppointmentsList"
+                        class="admin-list">
+                    </div>
+
+                </div>
+
+
+                <!-- DESENVOLVEDOR -->
+
+                <div
+                    id="adminUBS"
+                    class="admin-content hidden developer-only">
+
+                    <h3>
+                        Selecionar UBS
+                    </h3>
+
+                    <div
+                        id="developerUBSSelector"
+                        class="ubs-selector">
                     </div>
 
                     <div
-                        class="time-grid"
-                        id="afternoonSlots"
-                    ></div>
+                        id="developerOverview"
+                        class="developer-overview">
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
-
-    </section>
-
-
-    <!-- CONFIRMAÇÃO -->
-
-    <section
-        class="section card confirmation hidden"
-        id="confirmationSection"
-    >
-
-        <div class="success-icon">
-            ✓
-        </div>
-
-        <span class="section-kicker">
-            AGENDAMENTO REALIZADO
-        </span>
-
-        <h2>
-            Consulta confirmada!
-        </h2>
-
-        <p id="confirmationText"></p>
-
-
-        <div
-            class="queue-box"
-            id="queueBox"
-        ></div>
-
-
-        <div class="confirmation-actions">
-
-            <button
-                type="button"
-                class="btn primary"
-                id="viewAppointmentsBtn"
-            >
-                Ver meus agendamentos
-            </button>
-
-            <button
-                type="button"
-                class="btn secondary"
-                id="newAppointmentBtn"
-            >
-                Novo agendamento
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- MEUS AGENDAMENTOS -->
-
-    <section
-        class="section card hidden"
-        id="appointmentsSection"
-    >
-
-        <div class="section-heading">
-
-            <div>
-
-                <span class="section-kicker">
-                    MINHAS CONSULTAS
-                </span>
-
-                <h2>
-                    Meus agendamentos
-                </h2>
-
-                <p>
-                    Consulte, reagende ou cancele suas consultas.
-                </p>
-
-            </div>
-
-            <div class="section-icon">
-                📋
-            </div>
-
-        </div>
-
-
-        <div id="appointmentsList"></div>
-
-    </section>
-
-
-    <!-- INFORMAÇÕES UBS -->
-
-    <section
-        class="section card hidden"
-        id="infoSection"
-    >
-
-        <div class="section-heading">
-
-            <div>
-
-                <span class="section-kicker">
-                    INFORMAÇÕES
-                </span>
-
-                <h2>
-                    Sobre a unidade
-                </h2>
-
-                <p>
-                    Confira as informações da UBS selecionada.
-                </p>
-
-            </div>
-
-            <div class="section-icon">
-                ℹ️
-            </div>
-
-        </div>
-
-
-        <div
-            class="info-tabs"
-            id="infoTabs"
-        >
-
-            <button
-                type="button"
-                class="info-tab active"
-                data-info="dados"
-            >
-                UBS
-            </button>
-
-            <button
-                type="button"
-                class="info-tab"
-                data-info="funcionarios"
-            >
-                Funcionários
-            </button>
-
-            <button
-                type="button"
-                class="info-tab"
-                data-info="especialidades"
-            >
-                Especialidades
-            </button>
-
-            <button
-                type="button"
-                class="info-tab"
-                data-info="campanhas"
-            >
-                Campanhas
-            </button>
-
-            <button
-                type="button"
-                class="info-tab"
-                data-info="documentos"
-            >
-                Documentos
-            </button>
-
-        </div>
-
-
-        <div id="infoContent"></div>
+        </section>
 
     </section>
 
 </main>
 
 
-<!-- LOGIN FUNCIONÁRIO -->
+<!-- LOGIN -->
 
 <div
-    class="modal hidden"
     id="loginModal"
->
+    class="modal hidden">
 
     <div class="modal-box">
 
         <button
-            type="button"
             class="modal-close"
-            data-close="loginModal"
-        >
+            id="closeLogin">
             ×
         </button>
 
@@ -667,596 +850,75 @@
             🔐
         </div>
 
-        <h2>
-            Área administrativa
-        </h2>
+        <h2>Área administrativa</h2>
 
         <p>
-            Entre com o usuário e senha da sua unidade.
+            Entre com o usuário e senha da UBS.
         </p>
-
 
         <form id="loginForm">
 
-            <div class="form-group">
+            <div class="field">
 
-                <label for="loginUser">
-                    Usuário
-                </label>
+                <label>Usuário</label>
 
                 <input
-                    type="text"
                     id="loginUser"
                     required
-                >
+                    autocomplete="username">
 
             </div>
 
+            <div class="field">
 
-            <div class="form-group">
-
-                <label for="loginPass">
-                    Senha
-                </label>
+                <label>Senha</label>
 
                 <input
-                    type="password"
                     id="loginPass"
+                    type="password"
                     required
-                >
+                    autocomplete="current-password">
 
             </div>
 
-
             <button
-                type="submit"
-                class="btn primary full"
-            >
+                class="primary-btn"
+                type="submit">
                 Entrar
             </button>
 
         </form>
 
+        <div class="demo-login">
 
-        <div class="login-help">
+            <strong>Acessos de demonstração</strong>
 
-            <strong>
-                Demonstração
-            </strong>
-
-            <span>
+            <p>
                 UBS A: adminA / 1234
-            </span>
+            </p>
 
-            <span>
+            <p>
                 UBS C: adminC / 1234
-            </span>
+            </p>
 
-            <span>
+            <p>
                 UBS D: adminD / 1234
-            </span>
+            </p>
 
-            <span>
+            <p>
                 UBS E: adminE / 1234
-            </span>
+            </p>
 
-            <span>
+            <p>
                 UBS F: adminF / 1234
-            </span>
-
-            <span>
-                Desenvolvedor: desenvolvedor / 2026
-            </span>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- PAINEL ADMINISTRATIVO -->
-
-<div
-    class="modal panel-modal hidden"
-    id="panelModal"
->
-
-    <div class="modal-box large-panel">
-
-        <button
-            type="button"
-            class="modal-close"
-            data-close="panelModal"
-        >
-            ×
-        </button>
-
-
-        <div class="panel-header">
-
-            <div>
-
-                <span class="section-kicker">
-                    PAINEL ADMINISTRATIVO
-                </span>
-
-                <h2 id="panelTitle">
-                    UBS
-                </h2>
-
-                <p id="panelRole">
-                    Administrador da unidade
-                </p>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="btn secondary"
-                id="logoutBtn"
-            >
-                Sair
-            </button>
-
-        </div>
-
-
-        <!-- SELECTOR DESENVOLVEDOR -->
-
-        <div
-            class="developer-selector hidden"
-            id="developerSelector"
-        >
-
-            <label for="developerUBS">
-                Unidade que será administrada
-            </label>
-
-            <select id="developerUBS"></select>
-
-        </div>
-
-
-        <!-- ABAS PAINEL -->
-
-        <div class="panel-tabs">
-
-            <button
-                type="button"
-                class="panel-tab active"
-                data-panel="dashboard"
-            >
-                📊 Consultas
-            </button>
-
-            <button
-                type="button"
-                class="panel-tab"
-                data-panel="ubs"
-            >
-                🏥 Dados da UBS
-            </button>
-
-            <button
-                type="button"
-                class="panel-tab"
-                data-panel="employees"
-            >
-                👥 Funcionários
-            </button>
-
-            <button
-                type="button"
-                class="panel-tab"
-                data-panel="specialties"
-            >
-                🩺 Especialidades
-            </button>
-
-            <button
-                type="button"
-                class="panel-tab"
-                data-panel="campaigns"
-            >
-                📢 Campanhas
-            </button>
-
-        </div>
-
-
-        <!-- DASHBOARD -->
-
-        <div
-            class="panel-page active"
-            id="panel-dashboard"
-        >
-
-            <div
-                class="dashboard-stats"
-                id="dashboardStats"
-            ></div>
-
-
-            <div class="filters">
-
-                <div class="form-group">
-
-                    <label for="panelDate">
-                        Data
-                    </label>
-
-                    <input
-                        type="date"
-                        id="panelDate"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="panelSpecialty">
-                        Especialidade
-                    </label>
-
-                    <select id="panelSpecialty">
-
-                        <option value="">
-                            Todas
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="panelPeriod">
-                        Período
-                    </label>
-
-                    <select id="panelPeriod">
-
-                        <option value="">
-                            Todos
-                        </option>
-
-                        <option value="manha">
-                            Manhã
-                        </option>
-
-                        <option value="tarde">
-                            Tarde
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="panel-appointments"
-                id="panelAppointments"
-            ></div>
-
-        </div>
-
-
-        <!-- DADOS UBS -->
-
-        <div
-            class="panel-page"
-            id="panel-ubs"
-        >
-
-            <form id="ubsEditForm">
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label>
-                            Nome da UBS
-                        </label>
-
-                        <input
-                            type="text"
-                            id="editUBSName"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>
-                            Telefone
-                        </label>
-
-                        <input
-                            type="text"
-                            id="editUBSPhone"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group full-width">
-
-                        <label>
-                            Endereço
-                        </label>
-
-                        <input
-                            type="text"
-                            id="editUBSAddress"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group full-width">
-
-                        <label>
-                            Horário de funcionamento
-                        </label>
-
-                        <input
-                            type="text"
-                            id="editUBSHours"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group full-width">
-
-                        <label>
-                            Documentos necessários
-                        </label>
-
-                        <textarea
-                            id="editUBSDocs"
-                            rows="5"
-                            placeholder="Um documento por linha"
-                        ></textarea>
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="btn primary"
-                >
-                    Salvar informações
-                </button>
-
-            </form>
-
+            </p>
 
             <hr>
 
-
-            <h3>
-                Credenciais da unidade
-            </h3>
-
-
-            <form id="credentialsForm">
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label>
-                            Usuário
-                        </label>
-
-                        <input
-                            type="text"
-                            id="editAdminUser"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>
-                            Nova senha
-                        </label>
-
-                        <input
-                            type="password"
-                            id="editAdminPassword"
-                            placeholder="Deixe vazio para manter"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="btn secondary"
-                >
-                    Atualizar acesso
-                </button>
-
-            </form>
-
-        </div>
-
-
-        <!-- FUNCIONÁRIOS -->
-
-        <div
-            class="panel-page"
-            id="panel-employees"
-        >
-
-            <form
-                id="employeeForm"
-                class="inline-form"
-            >
-
-                <input
-                    type="hidden"
-                    id="employeeEditId"
-                >
-
-                <input
-                    type="text"
-                    id="employeeName"
-                    placeholder="Nome do funcionário"
-                    required
-                >
-
-                <input
-                    type="text"
-                    id="employeeRole"
-                    placeholder="Cargo / função"
-                    required
-                >
-
-                <button
-                    type="submit"
-                    class="btn primary"
-                >
-                    Salvar
-                </button>
-
-                <button
-                    type="button"
-                    class="btn secondary hidden"
-                    id="cancelEmployeeEdit"
-                >
-                    Cancelar
-                </button>
-
-            </form>
-
-
-            <div
-                class="admin-list"
-                id="employeeList"
-            ></div>
-
-        </div>
-
-
-        <!-- ESPECIALIDADES -->
-
-        <div
-            class="panel-page"
-            id="panel-specialties"
-        >
-
-            <form
-                id="specialtyForm"
-                class="inline-form"
-            >
-
-                <input
-                    type="hidden"
-                    id="specialtyEditId"
-                >
-
-                <input
-                    type="text"
-                    id="specialtyName"
-                    placeholder="Nome da especialidade"
-                    required
-                >
-
-                <input
-                    type="text"
-                    id="specialtyDescription"
-                    placeholder="Descrição"
-                >
-
-                <button
-                    type="submit"
-                    class="btn primary"
-                >
-                    Salvar
-                </button>
-
-                <button
-                    type="button"
-                    class="btn secondary hidden"
-                    id="cancelSpecialtyEdit"
-                >
-                    Cancelar
-                </button>
-
-            </form>
-
-
-            <div
-                class="admin-list"
-                id="specialtyList"
-            ></div>
-
-        </div>
-
-
-        <!-- CAMPANHAS -->
-
-        <div
-            class="panel-page"
-            id="panel-campaigns"
-        >
-
-            <form
-                id="campaignForm"
-                class="inline-form"
-            >
-
-                <input
-                    type="hidden"
-                    id="campaignEditIndex"
-                >
-
-                <input
-                    type="text"
-                    id="campaignName"
-                    placeholder="Nome da campanha"
-                    required
-                >
-
-                <button
-                    type="submit"
-                    class="btn primary"
-                >
-                    Salvar
-                </button>
-
-                <button
-                    type="button"
-                    class="btn secondary hidden"
-                    id="cancelCampaignEdit"
-                >
-                    Cancelar
-                </button>
-
-            </form>
-
-
-            <div
-                class="admin-list"
-                id="campaignList"
-            ></div>
+            <p>
+                Desenvolvedor:
+                desenvolvedor / 2026
+            </p>
 
         </div>
 
@@ -1268,9 +930,9 @@
 <!-- TOAST -->
 
 <div
-    class="toast"
     id="toast"
-></div>
+    class="toast">
+</div>
 
 
 <script src="script.js"></script>
