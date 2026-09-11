@@ -1,218 +1,21 @@
-// =====================================================
-// CONECTA SAÚDE
-// JAVASCRIPT V3
-// =====================================================
+/* ============================================================
+   CONECTA SAÚDE
+   JAVASCRIPT - VERSÃO ATUALIZADA
+============================================================ */
 
 
-const UBS = [
+/* ============================================================
+   CONFIGURAÇÕES INICIAIS
+============================================================ */
 
-    {
-        id: "A",
-        nome: "UBS A",
-        endereco: "Rua da Saúde, 100",
-        telefone: "(87) 3333-1001",
-        horario: "07h às 17h",
-
-        servicos: [
-            "Clínico geral",
-            "Dentista",
-            "Enfermagem",
-            "Vacinação",
-            "Curativos",
-            "Acompanhamento de hipertensão e diabetes"
-        ],
-
-        campanhas: [
-            "Vacinação contra Influenza",
-            "Atualização da caderneta de vacinação"
-        ],
-
-        documentos: [
-            "Cartão SUS",
-            "Documento de identificação com foto"
-        ],
-
-        funcionarios: [
-            ["Mariana Alves", "Enfermeira"],
-            ["Carlos Lima", "Clínico geral"],
-            ["Joana Martins", "Dentista"]
-        ]
-    },
+const STORAGE = {
+    UBS: "conectaSaudeUBSV3",
+    APPOINTMENTS: "conectaSaudeAppointmentsV3",
+    SESSION: "conectaSaudeSessionV3"
+};
 
 
-    {
-        id: "C",
-        nome: "UBS C",
-        endereco: "Av. Esperança, 250",
-        telefone: "(87) 3333-1003",
-        horario: "07h às 17h",
-
-        servicos: [
-            "Clínico geral",
-            "Dentista",
-            "Enfermagem",
-            "Vacinação",
-            "Pré-natal",
-            "Saúde da mulher"
-        ],
-
-        campanhas: [
-            "Vacinação de rotina",
-            "Campanha de saúde da mulher"
-        ],
-
-        documentos: [
-            "Cartão SUS",
-            "Documento de identificação"
-        ],
-
-        funcionarios: [
-            ["Patrícia Gomes", "Enfermeira"],
-            ["André Costa", "Clínico geral"],
-            ["Luciana Melo", "Dentista"]
-        ]
-    },
-
-
-    {
-        id: "D",
-        nome: "UBS D",
-        endereco: "Rua das Flores, 45",
-        telefone: "(87) 3333-1004",
-        horario: "08h às 18h",
-
-        servicos: [
-            "Clínico geral",
-            "Dentista",
-            "Enfermagem",
-            "Curativos",
-            "Acompanhamento de idosos",
-            "Vacinação"
-        ],
-
-        campanhas: [
-            "Prevenção e controle da dengue",
-            "Acompanhamento de hipertensão"
-        ],
-
-        documentos: [
-            "Cartão SUS",
-            "Documento com foto"
-        ],
-
-        funcionarios: [
-            ["Fernanda Rocha", "Clínica geral"],
-            ["Diego Nunes", "Enfermeiro"],
-            ["Camila Freire", "Dentista"]
-        ]
-    },
-
-
-    {
-        id: "E",
-        nome: "UBS E",
-        endereco: "Praça do Cuidado, 80",
-        telefone: "(87) 3333-1005",
-        horario: "07h às 16h",
-
-        servicos: [
-            "Clínico geral",
-            "Dentista",
-            "Enfermagem",
-            "Saúde do idoso",
-            "Vacinação",
-            "Acompanhamento infantil"
-        ],
-
-        campanhas: [
-            "Vacinação de rotina",
-            "Saúde do idoso"
-        ],
-
-        documentos: [
-            "Cartão SUS",
-            "Documento com foto"
-        ],
-
-        funcionarios: [
-            ["Renata Moura", "Enfermeira"],
-            ["Fábio Castro", "Clínico geral"],
-            ["Aline Dias", "Dentista"]
-        ]
-    },
-
-
-    {
-        id: "F",
-        nome: "UBS F",
-        endereco: "Av. Vida Nova, 310",
-        telefone: "(87) 3333-1006",
-        horario: "07h às 17h",
-
-        servicos: [
-            "Clínico geral",
-            "Dentista",
-            "Enfermagem",
-            "Vacinação",
-            "Saúde da mulher",
-            "Orientação nutricional"
-        ],
-
-        campanhas: [
-            "Vacinação contra Influenza",
-            "Prevenção do câncer do colo do útero"
-        ],
-
-        documentos: [
-            "Cartão SUS",
-            "Documento com foto"
-        ],
-
-        funcionarios: [
-            ["Bianca Ferreira", "Enfermeira"],
-            ["Gustavo Oliveira", "Clínico geral"],
-            ["Sofia Ramos", "Dentista"]
-        ]
-    }
-
-];
-
-
-// =====================================================
-// ESPECIALIDADES
-// =====================================================
-
-const especialidades = [
-
-    {
-        id: "clinico",
-        nome: "Clínico geral",
-        icone: "🩺",
-        descricao: "Avaliação e acompanhamento geral."
-    },
-
-    {
-        id: "dentista",
-        nome: "Dentista",
-        icone: "🦷",
-        descricao: "Atendimento em saúde bucal."
-    },
-
-    {
-        id: "enfermagem",
-        nome: "Enfermagem",
-        icone: "🩹",
-        descricao: "Consultas e orientações de enfermagem."
-    }
-
-];
-
-
-// =====================================================
-// HORÁRIOS
-// =====================================================
-
-const horarios = {
+const TIMES = {
 
     manha: [
         "07:00",
@@ -243,91 +46,524 @@ const horarios = {
 };
 
 
-// =====================================================
-// ESTADO
-// =====================================================
+/* ============================================================
+   DADOS INICIAIS
+============================================================ */
 
-let paciente = null;
+const DEFAULT_UBS = [
 
-let ubsSelecionada = null;
+    {
+        id: "A",
+        name: "UBS A",
 
-let especialidadeSelecionada = null;
+        address: "Rua da Saúde, 100",
 
-let dataSelecionada = null;
+        phone: "(87) 3333-1001",
 
-let agendamentoAtual = null;
+        hours: "Segunda a sexta, 07h às 17h",
+
+        docs: [
+            "Cartão SUS",
+            "Documento de identificação com foto",
+            "Comprovante de residência, quando solicitado"
+        ],
+
+        campaigns: [
+            "Vacinação contra Influenza",
+            "Atualização da caderneta de vacinação",
+            "Prevenção de hipertensão e diabetes"
+        ],
+
+        specialties: [
+            {
+                id: "clinico",
+                name: "Clínico geral",
+                icon: "🩺",
+                description: "Avaliação e acompanhamento de saúde."
+            },
+            {
+                id: "dentista",
+                name: "Dentista",
+                icon: "🦷",
+                description: "Atendimento e orientação em saúde bucal."
+            },
+            {
+                id: "enfermagem",
+                name: "Enfermeira",
+                icon: "🩹",
+                description: "Consultas e orientações de enfermagem."
+            }
+        ],
+
+        employees: [
+            {
+                id: "A1",
+                name: "Mariana Alves",
+                role: "Enfermeira responsável"
+            },
+            {
+                id: "A2",
+                name: "Carlos Lima",
+                role: "Clínico geral"
+            },
+            {
+                id: "A3",
+                name: "Joana Martins",
+                role: "Dentista"
+            },
+            {
+                id: "A4",
+                name: "Rafael Souza",
+                role: "Recepcionista"
+            }
+        ],
+
+        admin: {
+            user: "adminA",
+            password: "1234"
+        }
+
+    },
 
 
-// =====================================================
-// STORAGE
-// =====================================================
+    {
+        id: "C",
+        name: "UBS C",
 
-function pegarAgendamentos() {
+        address: "Av. Esperança, 250",
 
-    return JSON.parse(
-        localStorage.getItem("agendamentosConecta") || "[]"
-    );
+        phone: "(87) 3333-1003",
 
+        hours: "Segunda a sexta, 07h às 17h",
+
+        docs: [
+            "Cartão SUS",
+            "Documento de identificação",
+            "Comprovante de residência, quando solicitado"
+        ],
+
+        campaigns: [
+            "Vacinação contra Influenza",
+            "Vacinação de rotina para crianças",
+            "Campanha de saúde da mulher"
+        ],
+
+        specialties: [
+            {
+                id: "clinico",
+                name: "Clínico geral",
+                icon: "🩺",
+                description: "Avaliação e acompanhamento de saúde."
+            },
+            {
+                id: "dentista",
+                name: "Dentista",
+                icon: "🦷",
+                description: "Atendimento e orientação em saúde bucal."
+            },
+            {
+                id: "enfermagem",
+                name: "Enfermeira",
+                icon: "🩹",
+                description: "Consultas e orientações de enfermagem."
+            }
+        ],
+
+        employees: [
+            {
+                id: "C1",
+                name: "Patrícia Gomes",
+                role: "Enfermeira"
+            },
+            {
+                id: "C2",
+                name: "André Costa",
+                role: "Clínico geral"
+            },
+            {
+                id: "C3",
+                name: "Luciana Melo",
+                role: "Dentista"
+            },
+            {
+                id: "C4",
+                name: "Bruno Reis",
+                role: "Agente administrativo"
+            }
+        ],
+
+        admin: {
+            user: "adminC",
+            password: "1234"
+        }
+
+    },
+
+
+    {
+        id: "D",
+        name: "UBS D",
+
+        address: "Rua das Flores, 45",
+
+        phone: "(87) 3333-1004",
+
+        hours: "Segunda a sexta, 08h às 18h",
+
+        docs: [
+            "Cartão SUS",
+            "Documento com foto",
+            "Receitas e exames anteriores, se relacionados à consulta"
+        ],
+
+        campaigns: [
+            "Vacinação contra Influenza",
+            "Prevenção e controle da dengue",
+            "Acompanhamento de hipertensão"
+        ],
+
+        specialties: [
+            {
+                id: "clinico",
+                name: "Clínico geral",
+                icon: "🩺",
+                description: "Avaliação e acompanhamento de saúde."
+            },
+            {
+                id: "dentista",
+                name: "Dentista",
+                icon: "🦷",
+                description: "Atendimento e orientação em saúde bucal."
+            },
+            {
+                id: "enfermagem",
+                name: "Enfermeira",
+                icon: "🩹",
+                description: "Consultas e orientações de enfermagem."
+            }
+        ],
+
+        employees: [
+            {
+                id: "D1",
+                name: "Fernanda Rocha",
+                role: "Médica clínica geral"
+            },
+            {
+                id: "D2",
+                name: "Diego Nunes",
+                role: "Enfermeiro"
+            },
+            {
+                id: "D3",
+                name: "Camila Freire",
+                role: "Dentista"
+            },
+            {
+                id: "D4",
+                name: "Paulo Santos",
+                role: "Recepcionista"
+            }
+        ],
+
+        admin: {
+            user: "adminD",
+            password: "1234"
+        }
+
+    },
+
+
+    {
+        id: "E",
+        name: "UBS E",
+
+        address: "Praça do Cuidado, 80",
+
+        phone: "(87) 3333-1005",
+
+        hours: "Segunda a sexta, 07h às 16h",
+
+        docs: [
+            "Cartão SUS",
+            "Documento de identificação",
+            "Caderneta de vacinação, quando aplicável"
+        ],
+
+        campaigns: [
+            "Vacinação de rotina",
+            "Saúde do idoso",
+            "Orientação sobre alimentação saudável"
+        ],
+
+        specialties: [
+            {
+                id: "clinico",
+                name: "Clínico geral",
+                icon: "🩺",
+                description: "Avaliação e acompanhamento de saúde."
+            },
+            {
+                id: "dentista",
+                name: "Dentista",
+                icon: "🦷",
+                description: "Atendimento e orientação em saúde bucal."
+            },
+            {
+                id: "enfermagem",
+                name: "Enfermeira",
+                icon: "🩹",
+                description: "Consultas e orientações de enfermagem."
+            }
+        ],
+
+        employees: [
+            {
+                id: "E1",
+                name: "Renata Moura",
+                role: "Enfermeira"
+            },
+            {
+                id: "E2",
+                name: "Fábio Castro",
+                role: "Clínico geral"
+            },
+            {
+                id: "E3",
+                name: "Aline Dias",
+                role: "Dentista"
+            },
+            {
+                id: "E4",
+                name: "Márcio Lopes",
+                role: "Agente comunitário"
+            }
+        ],
+
+        admin: {
+            user: "adminE",
+            password: "1234"
+        }
+
+    },
+
+
+    {
+        id: "F",
+        name: "UBS F",
+
+        address: "Av. Vida Nova, 310",
+
+        phone: "(87) 3333-1006",
+
+        hours: "Segunda a sexta, 07h às 17h",
+
+        docs: [
+            "Cartão SUS",
+            "Documento com foto",
+            "Exames anteriores, se houver"
+        ],
+
+        campaigns: [
+            "Vacinação contra Influenza",
+            "Prevenção do câncer do colo do útero",
+            "Combate ao tabagismo"
+        ],
+
+        specialties: [
+            {
+                id: "clinico",
+                name: "Clínico geral",
+                icon: "🩺",
+                description: "Avaliação e acompanhamento de saúde."
+            },
+            {
+                id: "dentista",
+                name: "Dentista",
+                icon: "🦷",
+                description: "Atendimento e orientação em saúde bucal."
+            },
+            {
+                id: "enfermagem",
+                name: "Enfermeira",
+                icon: "🩹",
+                description: "Consultas e orientações de enfermagem."
+            }
+        ],
+
+        employees: [
+            {
+                id: "F1",
+                name: "Bianca Ferreira",
+                role: "Enfermeira responsável"
+            },
+            {
+                id: "F2",
+                name: "Gustavo Oliveira",
+                role: "Clínico geral"
+            },
+            {
+                id: "F3",
+                name: "Sofia Ramos",
+                role: "Dentista"
+            },
+            {
+                id: "F4",
+                name: "Leandro Melo",
+                role: "Recepcionista"
+            }
+        ],
+
+        admin: {
+            user: "adminF",
+            password: "1234"
+        }
+
+    }
+
+];
+
+
+/* ============================================================
+   ESTADO
+============================================================ */
+
+let ubsList = loadUBS();
+
+let appointments = loadAppointments();
+
+let patient = null;
+
+let selectedUBS = null;
+
+let selectedSpecialty = null;
+
+let selectedDate = null;
+
+let selectedTime = null;
+
+let calendarDate = new Date();
+
+let loggedUser = null;
+
+let adminUBS = null;
+
+
+/* ============================================================
+   ELEMENTOS
+============================================================ */
+
+const $ = (id) => document.getElementById(id);
+
+
+/* ============================================================
+   LOCAL STORAGE
+============================================================ */
+
+function loadUBS() {
+
+    const saved = localStorage.getItem(STORAGE.UBS);
+
+    if (!saved) {
+
+        localStorage.setItem(
+            STORAGE.UBS,
+            JSON.stringify(DEFAULT_UBS)
+        );
+
+        return structuredClone(DEFAULT_UBS);
+    }
+
+    try {
+
+        return JSON.parse(saved);
+
+    } catch {
+
+        localStorage.setItem(
+            STORAGE.UBS,
+            JSON.stringify(DEFAULT_UBS)
+        );
+
+        return structuredClone(DEFAULT_UBS);
+    }
 }
 
 
-function salvarAgendamentos(lista) {
+function saveUBS() {
 
     localStorage.setItem(
-        "agendamentosConecta",
-        JSON.stringify(lista)
+        STORAGE.UBS,
+        JSON.stringify(ubsList)
     );
-
 }
 
 
-function pegarFuncionarios() {
+function loadAppointments() {
 
-    return JSON.parse(
-        localStorage.getItem("funcionariosConecta") || "{}"
-    );
+    const saved =
+        localStorage.getItem(
+            STORAGE.APPOINTMENTS
+        );
 
+    if (!saved) {
+        return [];
+    }
+
+    try {
+
+        return JSON.parse(saved);
+
+    } catch {
+
+        return [];
+    }
 }
 
 
-function salvarFuncionarios(lista) {
+function saveAppointments() {
 
     localStorage.setItem(
-        "funcionariosConecta",
-        JSON.stringify(lista)
+        STORAGE.APPOINTMENTS,
+        JSON.stringify(appointments)
     );
-
 }
 
 
-// =====================================================
-// FUNÇÕES AUXILIARES
-// =====================================================
+/* ============================================================
+   UTILIDADES
+============================================================ */
 
-function mostrar(id) {
+function escapeHTML(value) {
 
-    document
-        .querySelectorAll("main > section")
-        .forEach(section => {
-
-            section.classList.add("hidden");
-
-        });
-
-
-    document
-        .getElementById(id)
-        .classList.remove("hidden");
-
+    return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
 
 
-function mensagem(texto) {
+function generateId(prefix = "ID") {
 
-    const toast =
-        document.getElementById("toast");
+    return (
+        prefix +
+        "_" +
+        Date.now() +
+        "_" +
+        Math.random()
+            .toString(36)
+            .substring(2, 8)
+    );
+}
 
-    toast.textContent = texto;
+
+function showToast(message) {
+
+    const toast = $("toast");
+
+    toast.textContent = message;
 
     toast.classList.add("show");
 
@@ -335,832 +571,2834 @@ function mensagem(texto) {
 
         toast.classList.remove("show");
 
-    }, 2500);
-
+    }, 3500);
 }
 
 
-function formatarData(data) {
+function openModal(id) {
 
-    return new Date(
-        data + "T12:00:00"
-    ).toLocaleDateString("pt-BR");
-
+    $(id).classList.remove("hidden");
 }
 
 
-// =====================================================
-// CADASTRO
-// =====================================================
+function closeModal(id) {
 
-document
-    .getElementById("formCadastro")
-    .addEventListener("submit", function(event) {
+    $(id).classList.add("hidden");
+}
+
+
+function formatDate(date) {
+
+    const [year, month, day] =
+        date.split("-");
+
+    return `${day}/${month}/${year}`;
+}
+
+
+function todayString() {
+
+    const date = new Date();
+
+    const y =
+        date.getFullYear();
+
+    const m =
+        String(date.getMonth() + 1)
+            .padStart(2, "0");
+
+    const d =
+        String(date.getDate())
+            .padStart(2, "0");
+
+    return `${y}-${m}-${d}`;
+}
+
+
+function addDays(date, amount) {
+
+    const result = new Date(date);
+
+    result.setDate(
+        result.getDate() + amount
+    );
+
+    return result;
+}
+
+
+function dateToString(date) {
+
+    const y =
+        date.getFullYear();
+
+    const m =
+        String(date.getMonth() + 1)
+            .padStart(2, "0");
+
+    const d =
+        String(date.getDate())
+            .padStart(2, "0");
+
+    return `${y}-${m}-${d}`;
+}
+
+
+function capitalize(text) {
+
+    if (!text) return "";
+
+    return text.charAt(0).toUpperCase() +
+        text.slice(1);
+}
+
+
+/* ============================================================
+   MÁSCARAS
+============================================================ */
+
+$("phone").addEventListener(
+    "input",
+    function () {
+
+        let value =
+            this.value.replace(/\D/g, "");
+
+        value =
+            value.substring(0, 11);
+
+        if (value.length <= 10) {
+
+            value = value.replace(
+                /^(\d{2})(\d)/,
+                "($1) $2"
+            );
+
+            value = value.replace(
+                /(\d{4})(\d)/,
+                "$1-$2"
+            );
+
+        } else {
+
+            value = value.replace(
+                /^(\d{2})(\d)/,
+                "($1) $2"
+            );
+
+            value = value.replace(
+                /(\d{5})(\d)/,
+                "$1-$2"
+            );
+        }
+
+        this.value = value;
+    }
+);
+
+
+$("sus").addEventListener(
+    "input",
+    function () {
+
+        this.value =
+            this.value
+                .replace(/\D/g, "")
+                .substring(0, 15);
+    }
+);
+
+
+/* ============================================================
+   UBS
+============================================================ */
+
+function renderUBS() {
+
+    const grid = $("ubsGrid");
+
+    grid.innerHTML = "";
+
+    ubsList.forEach(ubs => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "ubs-card" +
+            (
+                selectedUBS?.id === ubs.id
+                    ? " selected"
+                    : ""
+            );
+
+        card.innerHTML = `
+
+            <div class="ubs-card-header">
+
+                <h3>
+                    ${escapeHTML(ubs.name)}
+                </h3>
+
+                <span class="ubs-badge">
+                    UBS
+                </span>
+
+            </div>
+
+            <p>
+                📍 ${escapeHTML(ubs.address)}
+            </p>
+
+            <p>
+                ☎️ ${escapeHTML(ubs.phone)}
+            </p>
+
+            <p>
+                🕐 ${escapeHTML(ubs.hours)}
+            </p>
+
+        `;
+
+        card.addEventListener(
+            "click",
+            () => selectUBS(ubs.id)
+        );
+
+        grid.appendChild(card);
+
+    });
+}
+
+
+function selectUBS(id) {
+
+    selectedUBS =
+        ubsList.find(
+            item => item.id === id
+        );
+
+    if (!selectedUBS) return;
+
+    selectedSpecialty = null;
+
+    selectedDate = null;
+
+    selectedTime = null;
+
+    renderUBS();
+
+    renderSpecialties();
+
+    showSection("specialtySection");
+
+    renderInfo();
+
+    $("infoSection")
+        .classList.remove("hidden");
+
+    updateSteps(2);
+
+    $("specialtySection")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+}
+
+
+/* ============================================================
+   ESPECIALIDADES
+============================================================ */
+
+function renderSpecialties() {
+
+    if (!selectedUBS) return;
+
+    $("specialtyTitle").textContent =
+        `Especialidade - ${selectedUBS.name}`;
+
+    const grid =
+        $("specialtyGrid");
+
+    grid.innerHTML = "";
+
+    selectedUBS.specialties
+        .forEach(specialty => {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "specialty-card" +
+                (
+                    selectedSpecialty?.id ===
+                    specialty.id
+                        ? " selected"
+                        : ""
+                );
+
+            card.innerHTML = `
+
+                <div class="specialty-icon">
+                    ${escapeHTML(
+                        specialty.icon || "🩺"
+                    )}
+                </div>
+
+                <h3>
+                    ${escapeHTML(
+                        specialty.name
+                    )}
+                </h3>
+
+                <p>
+                    ${escapeHTML(
+                        specialty.description || ""
+                    )}
+                </p>
+
+            `;
+
+            card.addEventListener(
+                "click",
+                () => selectSpecialty(
+                    specialty.id
+                )
+            );
+
+            grid.appendChild(card);
+
+        });
+}
+
+
+function selectSpecialty(id) {
+
+    selectedSpecialty =
+        selectedUBS.specialties.find(
+            item => item.id === id
+        );
+
+    if (!selectedSpecialty) return;
+
+    renderSpecialties();
+
+    $("scheduleSection")
+        .classList.remove("hidden");
+
+    renderCalendar();
+
+    updateSteps(3);
+
+    $("scheduleSection")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+}
+
+
+/* ============================================================
+   CALENDÁRIO
+============================================================ */
+
+const WEEK_DAYS = [
+    "Dom",
+    "Seg",
+    "Ter",
+    "Qua",
+    "Qui",
+    "Sex",
+    "Sáb"
+];
+
+
+const MONTHS = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+];
+
+
+function isHoliday(date) {
+
+    const year =
+        date.getFullYear();
+
+    const month =
+        date.getMonth() + 1;
+
+    const day =
+        date.getDate();
+
+
+    const fixed = [
+        `${year}-01-01`,
+        `${year}-04-21`,
+        `${year}-05-01`,
+        `${year}-09-07`,
+        `${year}-10-12`,
+        `${year}-11-02`,
+        `${year}-11-15`,
+        `${year}-12-25`
+    ];
+
+    return fixed.includes(
+        dateToString(date)
+    );
+}
+
+
+function isUnavailableDate(date) {
+
+    const day =
+        date.getDay();
+
+    if (day === 0 || day === 6) {
+        return true;
+    }
+
+    if (isHoliday(date)) {
+        return true;
+    }
+
+    const min =
+        new Date();
+
+    min.setHours(0, 0, 0, 0);
+
+    if (date < min) {
+        return true;
+    }
+
+    const max =
+        addDays(new Date(), 90);
+
+    if (date > max) {
+        return true;
+    }
+
+    return false;
+}
+
+
+function renderCalendar() {
+
+    if (!selectedUBS ||
+        !selectedSpecialty) {
+        return;
+    }
+
+    const calendar =
+        $("calendar");
+
+    calendar.innerHTML = "";
+
+    const year =
+        calendarDate.getFullYear();
+
+    const month =
+        calendarDate.getMonth();
+
+    $("calendarTitle").textContent =
+        `${MONTHS[month]} ${year}`;
+
+
+    WEEK_DAYS.forEach(day => {
+
+        const el =
+            document.createElement("div");
+
+        el.className =
+            "calendar-day-name";
+
+        el.textContent = day;
+
+        calendar.appendChild(el);
+
+    });
+
+
+    const firstDay =
+        new Date(year, month, 1)
+            .getDay();
+
+    const totalDays =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
+
+        const empty =
+            document.createElement("div");
+
+        calendar.appendChild(empty);
+    }
+
+
+    for (
+        let day = 1;
+        day <= totalDays;
+        day++
+    ) {
+
+        const date =
+            new Date(
+                year,
+                month,
+                day
+            );
+
+        const dateString =
+            dateToString(date);
+
+        const button =
+            document.createElement("button");
+
+        button.type = "button";
+
+        button.className =
+            "calendar-day";
+
+        button.textContent = day;
+
+
+        if (
+            dateString ===
+            todayString()
+        ) {
+
+            button.classList.add(
+                "today"
+            );
+        }
+
+
+        if (
+            selectedDate ===
+            dateString
+        ) {
+
+            button.classList.add(
+                "selected"
+            );
+        }
+
+
+        if (
+            isUnavailableDate(date)
+        ) {
+
+            button.disabled = true;
+
+        } else {
+
+            button.addEventListener(
+                "click",
+                () => selectDate(
+                    dateString
+                )
+            );
+
+        }
+
+        calendar.appendChild(button);
+    }
+}
+
+
+function selectDate(date) {
+
+    selectedDate = date;
+
+    selectedTime = null;
+
+    renderCalendar();
+
+    $("selectedDateLabel")
+        .textContent =
+        formatDate(date);
+
+    renderTimes();
+
+    updateSteps(4);
+}
+
+
+$("prevMonth").addEventListener(
+    "click",
+    () => {
+
+        calendarDate.setMonth(
+            calendarDate.getMonth() - 1
+        );
+
+        renderCalendar();
+    }
+);
+
+
+$("nextMonth").addEventListener(
+    "click",
+    () => {
+
+        calendarDate.setMonth(
+            calendarDate.getMonth() + 1
+        );
+
+        renderCalendar();
+    }
+);
+
+
+/* ============================================================
+   HORÁRIOS
+============================================================ */
+
+function appointmentExists(
+    date,
+    time
+) {
+
+    return appointments.some(
+        appointment =>
+            appointment.status ===
+            "confirmed" &&
+
+            appointment.ubsId ===
+            selectedUBS.id &&
+
+            appointment.specialtyId ===
+            selectedSpecialty.id &&
+
+            appointment.date === date &&
+
+            appointment.time === time
+    );
+}
+
+
+function renderTimes() {
+
+    if (!selectedDate) return;
+
+    renderTimeGroup(
+        "morningSlots",
+        TIMES.manha,
+        "manha"
+    );
+
+    renderTimeGroup(
+        "afternoonSlots",
+        TIMES.tarde,
+        "tarde"
+    );
+}
+
+
+function renderTimeGroup(
+    elementId,
+    times,
+    period
+) {
+
+    const container =
+        $(elementId);
+
+    container.innerHTML = "";
+
+    times.forEach(time => {
+
+        const button =
+            document.createElement("button");
+
+        button.type = "button";
+
+        button.className =
+            "time-btn";
+
+        button.textContent = time;
+
+
+        const occupied =
+            appointmentExists(
+                selectedDate,
+                time
+            );
+
+
+        if (
+            occupied ||
+            selectedTime === time
+        ) {
+
+            if (occupied) {
+                button.disabled = true;
+            }
+
+            if (
+                selectedTime === time
+            ) {
+
+                button.classList.add(
+                    "selected"
+                );
+            }
+        }
+
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                selectedTime = time;
+
+                renderTimes();
+
+                bookAppointment();
+            }
+        );
+
+
+        container.appendChild(button);
+
+    });
+}
+
+
+/* ============================================================
+   AGENDAMENTO
+============================================================ */
+
+function bookAppointment() {
+
+    if (
+        !patient ||
+        !selectedUBS ||
+        !selectedSpecialty ||
+        !selectedDate ||
+        !selectedTime
+    ) {
+
+        return;
+    }
+
+
+    const duplicate =
+        appointments.find(
+            appointment =>
+
+                appointment.sus ===
+                patient.sus &&
+
+                appointment.status ===
+                "confirmed" &&
+
+                appointment.ubsId ===
+                selectedUBS.id &&
+
+                appointment.specialtyId ===
+                selectedSpecialty.id &&
+
+                appointment.date ===
+                selectedDate
+        );
+
+
+    if (duplicate) {
+
+        showToast(
+            "Você já possui uma consulta para esta especialidade nessa data."
+        );
+
+        return;
+    }
+
+
+    if (
+        appointmentExists(
+            selectedDate,
+            selectedTime
+        )
+    ) {
+
+        showToast(
+            "Este horário acabou de ser ocupado."
+        );
+
+        renderTimes();
+
+        return;
+    }
+
+
+    const queue =
+        calculateQueuePosition(
+            selectedDate,
+            selectedTime
+        );
+
+
+    const appointment = {
+
+        id: generateId("CONS"),
+
+        patientName:
+            patient.name,
+
+        phone:
+            patient.phone,
+
+        sus:
+            patient.sus,
+
+        ubsId:
+            selectedUBS.id,
+
+        specialtyId:
+            selectedSpecialty.id,
+
+        specialtyName:
+            selectedSpecialty.name,
+
+        date:
+            selectedDate,
+
+        time:
+            selectedTime,
+
+        period:
+            getPeriod(selectedTime),
+
+        queue,
+
+        status:
+            "confirmed",
+
+        reminder:
+            false,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    appointments.push(
+        appointment
+    );
+
+    saveAppointments();
+
+
+    showConfirmation(
+        appointment
+    );
+}
+
+
+function calculateQueuePosition(
+    date,
+    time
+) {
+
+    const sameDay =
+        appointments.filter(
+            appointment =>
+
+                appointment.status ===
+                "confirmed" &&
+
+                appointment.ubsId ===
+                selectedUBS.id &&
+
+                appointment.specialtyId ===
+                selectedSpecialty.id &&
+
+                appointment.date ===
+                date
+        );
+
+
+    const earlier =
+        sameDay.filter(
+            appointment =>
+                appointment.time < time
+        );
+
+
+    return earlier.length + 1;
+}
+
+
+function getPeriod(time) {
+
+    return (
+        TIMES.manha.includes(time)
+            ? "manha"
+            : "tarde"
+    );
+}
+
+
+function showConfirmation(
+    appointment
+) {
+
+    $("confirmationSection")
+        .classList.remove("hidden");
+
+    $("confirmationText").innerHTML = `
+
+        Sua consulta foi agendada para
+        <strong>
+            ${formatDate(
+                appointment.date
+            )}
+        </strong>
+        às
+        <strong>
+            ${appointment.time}
+        </strong>.
+
+        <br>
+
+        ${escapeHTML(
+            appointment.specialtyName
+        )}
+        na
+        ${escapeHTML(
+            selectedUBS.name
+        )}.
+
+    `;
+
+
+    $("queueBox").innerHTML = `
+
+        Sua posição na fila é:
+
+        <span class="queue-number">
+            ${appointment.queue}º
+        </span>
+
+        <small>
+            Horário reservado:
+            ${appointment.time}
+        </small>
+
+    `;
+
+
+    updateSteps(5);
+
+
+    $("confirmationSection")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+    requestNotificationPermission();
+}
+
+
+/* ============================================================
+   PACIENTE
+============================================================ */
+
+$("patientForm").addEventListener(
+    "submit",
+    function (event) {
 
         event.preventDefault();
 
-
-        const nome =
-            document
-                .getElementById("nome")
+        const name =
+            $("name")
                 .value
                 .trim();
 
-
-        const telefone =
-            document
-                .getElementById("telefone")
+        const phone =
+            $("phone")
                 .value
                 .trim();
-
 
         const sus =
-            document
-                .getElementById("cartaoSUS")
+            $("sus")
                 .value
-                .replace(/\D/g, "");
+                .trim();
 
 
-        if (nome.split(" ").length < 2) {
+        if (name.length < 5) {
 
-            mensagem(
-                "Digite seu nome completo."
+            showToast(
+                "Informe o nome completo."
             );
 
             return;
+        }
 
+
+        if (
+            phone.replace(/\D/g, "")
+                .length < 10
+        ) {
+
+            showToast(
+                "Informe um celular válido."
+            );
+
+            return;
         }
 
 
         if (sus.length < 8) {
 
-            mensagem(
-                "Digite um Cartão SUS válido."
+            showToast(
+                "Informe um Cartão SUS válido."
             );
 
             return;
-
         }
 
 
-        paciente = {
-
-            nome,
-            telefone,
+        patient = {
+            name,
+            phone,
             sus
-
         };
 
 
-        carregarUBSs();
+        $("ubsSection")
+            .classList.remove("hidden");
 
-        mostrar("ubsSection");
+        renderUBS();
 
-    });
+        updateSteps(1);
 
+        $("ubsSection")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
 
-// =====================================================
-// LISTAR UBS
-// =====================================================
-
-function carregarUBSs() {
-
-    const lista =
-        document.getElementById("listaUBS");
-
-
-    lista.innerHTML = "";
+        showToast(
+            `Cadastro realizado, ${name.split(" ")[0]}!`
+        );
+    }
+);
 
 
-    UBS.forEach(ubs => {
+/* ============================================================
+   SEÇÕES
+============================================================ */
 
-        lista.innerHTML += `
+function showSection(id) {
 
-            <div class="ubs-card">
+    $(id)
+        .classList.remove("hidden");
+}
 
-                <h3>
-                    ${ubs.nome}
-                </h3>
 
-                <p>
-                    📍 ${ubs.endereco}
-                    <br>
-                    ☎ ${ubs.telefone}
-                    <br>
-                    🕐 ${ubs.horario}
-                </p>
+function updateSteps(number) {
 
-                <button
-                    class="primary"
-                    onclick="acessarUBS('${ubs.id}')"
-                >
-                    Acessar UBS
-                </button>
+    const steps =
+        document.querySelectorAll(
+            ".step"
+        );
+
+    steps.forEach(
+        (step, index) => {
+
+            const stepNumber =
+                index + 1;
+
+            step.classList.remove(
+                "active",
+                "completed"
+            );
+
+            if (
+                stepNumber < number
+            ) {
+
+                step.classList.add(
+                    "completed"
+                );
+
+            } else if (
+                stepNumber === number
+            ) {
+
+                step.classList.add(
+                    "active"
+                );
+            }
+        }
+    );
+}
+
+
+/* ============================================================
+   INFORMAÇÕES UBS
+============================================================ */
+
+function renderInfo(
+    type = "dados"
+) {
+
+    if (!selectedUBS) return;
+
+    const content =
+        $("infoContent");
+
+    if (type === "dados") {
+
+        content.innerHTML = `
+
+            <div class="info-content">
+
+                <div class="info-item">
+                    <strong>
+                        🏥 Unidade
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(
+                            selectedUBS.name
+                        )}
+                    </span>
+                </div>
+
+                <div class="info-item">
+                    <strong>
+                        📍 Endereço
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(
+                            selectedUBS.address
+                        )}
+                    </span>
+                </div>
+
+                <div class="info-item">
+                    <strong>
+                        ☎️ Telefone
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(
+                            selectedUBS.phone
+                        )}
+                    </span>
+                </div>
+
+                <div class="info-item">
+                    <strong>
+                        🕐 Funcionamento
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(
+                            selectedUBS.hours
+                        )}
+                    </span>
+                </div>
 
             </div>
 
         `;
-
-    });
-
-}
-
-
-// =====================================================
-// ACESSAR UBS
-// =====================================================
-
-function acessarUBS(id) {
-
-    ubsSelecionada =
-        UBS.find(
-            ubs => ubs.id === id
-        );
-
-
-    mostrarInformacoesUBS();
-
-
-    document
-        .getElementById("nomeUBSSelecionada")
-        .textContent =
-        ubsSelecionada.nome;
-
-
-    carregarEspecialidades();
-
-
-    mostrar("detalhesUBS");
-
-}
-
-
-// =====================================================
-// INFORMAÇÕES DA UBS
-// =====================================================
-
-function mostrarInformacoesUBS() {
-
-    const ubs =
-        ubsSelecionada;
-
-
-    const funcionariosExtras =
-        pegarFuncionarios()[ubs.id] || [];
-
-
-    const funcionarios =
-        [
-            ...ubs.funcionarios,
-            ...funcionariosExtras
-        ];
-
-
-    let html = `
-
-        <h2>
-            ${ubs.nome}
-        </h2>
-
-        <p>
-            ${ubs.endereco}
-            <br>
-            ${ubs.telefone}
-            <br>
-            Atendimento:
-            ${ubs.horario}
-        </p>
-
-
-        <div class="detalhes-grid">
-
-            <div class="info-box">
-
-                <h3>
-                    🩺 Serviços oferecidos
-                </h3>
-
-                <ul>
-
-                    ${ubs.servicos.map(
-                        servico =>
-                        `<li>${servico}</li>`
-                    ).join("")}
-
-                </ul>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <h3>
-                    💉 Campanhas
-                </h3>
-
-                <ul>
-
-                    ${ubs.campanhas.map(
-                        campanha =>
-                        `<li>${campanha}</li>`
-                    ).join("")}
-
-                </ul>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <h3>
-                    📄 Documentos
-                </h3>
-
-                <ul>
-
-                    ${ubs.documentos.map(
-                        documento =>
-                        `<li>${documento}</li>`
-                    ).join("")}
-
-                </ul>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <h3>
-                    👩‍⚕️ Funcionários
-                </h3>
-
-                <div class="funcionarios">
-
-                    ${funcionarios.map(
-                        funcionario => `
-
-                            <div class="funcionario">
-
-                                <strong>
-                                    ${funcionario.nome || funcionario[0]}
-                                </strong>
-
-                                <span>
-                                    ${funcionario.funcao || funcionario[1]}
-                                </span>
-
-                            </div>
-
-                        `
-                    ).join("")}
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <br>
-
-        <button
-            class="primary"
-            onclick="irParaEspecialidade()"
-        >
-            Continuar para especialidades
-        </button>
-
-    `;
-
-
-    document
-        .getElementById("dadosUBS")
-        .innerHTML = html;
-
-}
-
-
-// =====================================================
-// VOLTAR UBS
-// =====================================================
-
-document
-    .getElementById("voltarUBS")
-    .onclick = function() {
-
-        mostrar("ubsSection");
-
-    };
-
-
-// =====================================================
-// ESPECIALIDADES
-// =====================================================
-
-function irParaEspecialidade() {
-
-    mostrar("especialidadeSection");
-
-}
-
-
-function carregarEspecialidades() {
-
-    const lista =
-        document.getElementById(
-            "listaEspecialidades"
-        );
-
-
-    lista.innerHTML = "";
-
-
-    especialidades.forEach(
-        especialidade => {
-
-            lista.innerHTML += `
-
-                <div class="especialidade">
-
-                    <div style="font-size:35px">
-                        ${especialidade.icone}
-                    </div>
-
-                    <h3>
-                        ${especialidade.nome}
-                    </h3>
-
-                    <p>
-                        ${especialidade.descricao}
-                    </p>
-
-                    <button
-                        class="primary"
-                        onclick="selecionarEspecialidade('${especialidade.id}')"
-                    >
-                        Selecionar
-                    </button>
-
-                </div>
-
-            `;
-
-        }
-    );
-
-}
-
-
-function selecionarEspecialidade(id) {
-
-    especialidadeSelecionada =
-        especialidades.find(
-            item => item.id === id
-        );
-
-
-    document
-        .getElementById(
-            "resumoAgendamento"
-        )
-        .textContent =
-        `${ubsSelecionada.nome} • ${especialidadeSelecionada.nome}`;
-
-
-    configurarCalendario();
-
-
-    mostrar("agendaSection");
-
-}
-
-
-// =====================================================
-// VOLTAR ESPECIALIDADE
-// =====================================================
-
-document
-    .getElementById("voltarEspecialidade")
-    .onclick = function() {
-
-        mostrar("detalhesUBS");
-
-    };
-
-
-// =====================================================
-// CALENDÁRIO
-// =====================================================
-
-function configurarCalendario() {
-
-    const campo =
-        document.getElementById(
-            "dataConsulta"
-        );
-
-
-    const hoje =
-        new Date();
-
-
-    const ano =
-        hoje.getFullYear();
-
-
-    const mes =
-        String(
-            hoje.getMonth() + 1
-        ).padStart(2, "0");
-
-
-    const dia =
-        String(
-            hoje.getDate()
-        ).padStart(2, "0");
-
-
-    campo.min =
-        `${ano}-${mes}-${dia}`;
-
-
-    campo.addEventListener(
-        "change",
-        function() {
-
-            dataSelecionada =
-                campo.value;
-
-            carregarHorarios();
-
-        }
-    );
-
-}
-
-
-// =====================================================
-// FERIADOS
-// =====================================================
-
-function feriado(data) {
-
-    const d =
-        new Date(
-            data + "T12:00:00"
-        );
-
-
-    const dia =
-        d.getDate();
-
-
-    const mes =
-        d.getMonth() + 1;
-
-
-    const feriados = [
-
-        "1/1",
-        "21/4",
-        "1/5",
-        "7/9",
-        "12/10",
-        "2/11",
-        "15/11",
-        "20/11",
-        "25/12"
-
-    ];
-
-
-    return feriados.includes(
-        `${dia}/${mes}`
-    );
-
-}
-
-
-// =====================================================
-// CARREGAR HORÁRIOS
-// =====================================================
-
-function carregarHorarios() {
-
-    const data =
-        new Date(
-            dataSelecionada +
-            "T12:00:00"
-        );
-
-
-    if (
-        data.getDay() === 0 ||
-        data.getDay() === 6 ||
-        feriado(dataSelecionada)
-    ) {
-
-        mensagem(
-            "Essa data não possui atendimento."
-        );
-
-        return;
 
     }
 
 
-    carregarPeriodo(
-        "manha",
-        "horariosManha"
-    );
+    if (type === "funcionarios") {
+
+        content.innerHTML = `
+
+            <div class="info-content">
+
+                ${selectedUBS.employees
+                    .map(employee => `
+
+                        <div class="info-item">
+
+                            <strong>
+                                👤 ${escapeHTML(
+                                    employee.name
+                                )}
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    employee.role
+                                )}
+                            </span>
+
+                        </div>
+
+                    `)
+                    .join("")}
+
+            </div>
+
+        `;
+
+    }
 
 
-    carregarPeriodo(
-        "tarde",
-        "horariosTarde"
-    );
+    if (type === "especialidades") {
 
+        content.innerHTML = `
+
+            <div class="info-content">
+
+                ${selectedUBS.specialties
+                    .map(specialty => `
+
+                        <div class="info-item">
+
+                            <strong>
+                                ${escapeHTML(
+                                    specialty.icon || "🩺"
+                                )}
+                                ${escapeHTML(
+                                    specialty.name
+                                )}
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    specialty.description || ""
+                                )}
+                            </span>
+
+                        </div>
+
+                    `)
+                    .join("")}
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (type === "campanhas") {
+
+        content.innerHTML = `
+
+            <div class="info-content">
+
+                ${selectedUBS.campaigns
+                    .map(campaign => `
+
+                        <div class="info-item">
+
+                            <strong>
+                                📢 Campanha
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    campaign
+                                )}
+                            </span>
+
+                        </div>
+
+                    `)
+                    .join("")}
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (type === "documentos") {
+
+        content.innerHTML = `
+
+            <div class="info-content">
+
+                <div class="info-item">
+
+                    <strong>
+                        📋 Documentos necessários
+                    </strong>
+
+                    <ul>
+
+                        ${selectedUBS.docs
+                            .map(doc => `
+                                <li>
+                                    ${escapeHTML(doc)}
+                                </li>
+                            `)
+                            .join("")}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
 }
 
 
-function carregarPeriodo(
-    periodo,
-    elemento
-) {
+document
+    .querySelectorAll(".info-tab")
+    .forEach(tab => {
 
-    const div =
-        document.getElementById(
-            elemento
+        tab.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(
+                        ".info-tab"
+                    )
+                    .forEach(
+                        item =>
+                            item.classList.remove(
+                                "active"
+                            )
+                    );
+
+                tab.classList.add(
+                    "active"
+                );
+
+                renderInfo(
+                    tab.dataset.info
+                );
+            }
+        );
+
+    });
+
+
+/* ============================================================
+   MEUS AGENDAMENTOS
+============================================================ */
+
+$("myAppointmentsBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            if (!patient) {
+
+                showToast(
+                    "Faça seu cadastro primeiro."
+                );
+
+                $("patientCard")
+                    .scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                return;
+            }
+
+            renderAppointments();
+
+            $("appointmentsSection")
+                .classList.remove("hidden");
+
+            $("appointmentsSection")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+        }
+    );
+
+
+$("viewAppointmentsBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            renderAppointments();
+
+            $("appointmentsSection")
+                .classList.remove("hidden");
+
+            $("appointmentsSection")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+        }
+    );
+
+
+function renderAppointments() {
+
+    const list =
+        $("appointmentsList");
+
+    if (!patient) {
+
+        list.innerHTML = `
+            <p>
+                Informe seus dados para visualizar
+                os agendamentos.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    const mine =
+        appointments.filter(
+            appointment =>
+                appointment.sus ===
+                patient.sus
         );
 
 
-    div.innerHTML = "";
+    if (!mine.length) {
+
+        list.innerHTML = `
+
+            <div class="empty-state">
+
+                <p>
+                    Você ainda não possui
+                    agendamentos.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
 
 
-    const agendamentos =
-        pegarAgendamentos();
+    list.innerHTML = "";
 
 
-    horarios[periodo].forEach(
-        (hora, index) => {
+    mine
+        .sort(
+            (a, b) =>
+                `${a.date} ${a.time}`
+                    .localeCompare(
+                        `${b.date} ${b.time}`
+                    )
+        )
+        .forEach(
+            appointment => {
 
-            const ocupado =
-                agendamentos.some(
-                    agendamento =>
-
-                        agendamento.status ===
-                        "ativo" &&
-
-                        agendamento.ubs ===
-                        ubsSelecionada.id &&
-
-                        agendamento.especialidade ===
-                        especialidadeSelecionada.id &&
-
-                        agendamento.data ===
-                        dataSelecionada &&
-
-                        agendamento.hora ===
-                        hora
-                );
-
-
-            const botao =
-                document.createElement(
-                    "button"
-                );
-
-
-            botao.className =
-                "horario";
-
-
-            if (ocupado) {
-
-                botao.classList.add(
-                    "ocupado"
-                );
-
-                botao.disabled = true;
-
-            }
-
-
-            botao.innerHTML = `
-
-                <strong>
-                    ${hora}
-                </strong>
-
-                <br>
-
-                <small>
-                    ${
-                        ocupado
-                        ? "Ocupado"
-                        : `${index + 1}ª posição`
-                    }
-                </small>
-
-            `;
-
-
-            if (!ocupado) {
-
-                botao.onclick =
-                    () =>
-                    realizarAgendamento(
-                        periodo,
-                        hora,
-                        index + 1
+                const ubs =
+                    ubsList.find(
+                        item =>
+                            item.id ===
+                            appointment.ubsId
                     );
 
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "appointment-card";
+
+
+                const cancelled =
+                    appointment.status ===
+                    "cancelled";
+
+
+                card.innerHTML = `
+
+                    <div class="appointment-top">
+
+                        <div>
+
+                            <div class="appointment-title">
+                                ${escapeHTML(
+                                    ubs?.name || "UBS"
+                                )}
+                            </div>
+
+                            <small>
+                                ${escapeHTML(
+                                    appointment.specialtyName
+                                )}
+                            </small>
+
+                        </div>
+
+                        <span class="
+                            appointment-status
+                            ${
+                                cancelled
+                                    ? "status-cancelled"
+                                    : "status-confirmed"
+                            }
+                        ">
+
+                            ${
+                                cancelled
+                                    ? "Cancelada"
+                                    : "Confirmada"
+                            }
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="appointment-details">
+
+                        <div class="detail">
+
+                            <span>
+                                Data
+                            </span>
+
+                            <strong>
+                                ${formatDate(
+                                    appointment.date
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <span>
+                                Horário
+                            </span>
+
+                            <strong>
+                                ${appointment.time}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <span>
+                                Fila
+                            </span>
+
+                            <strong>
+                                ${appointment.queue}º
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    ${
+                        !cancelled
+                            ? `
+                                <div class="appointment-actions">
+
+                                    <button
+                                        class="btn secondary"
+                                        data-action="reminder"
+                                        data-id="${appointment.id}"
+                                    >
+                                        ${
+                                            appointment.reminder
+                                                ? "🔔 Lembrete ativado"
+                                                : "🔔 Ativar lembrete"
+                                        }
+                                    </button>
+
+                                    <button
+                                        class="btn secondary"
+                                        data-action="reschedule"
+                                        data-id="${appointment.id}"
+                                    >
+                                        🔄 Reagendar
+                                    </button>
+
+                                    <button
+                                        class="btn danger"
+                                        data-action="cancel"
+                                        data-id="${appointment.id}"
+                                    >
+                                        ❌ Cancelar
+                                    </button>
+
+                                </div>
+                            `
+                            : ""
+                    }
+
+                `;
+
+
+                list.appendChild(card);
+
             }
+        );
 
 
-            div.appendChild(
-                botao
+    list
+        .querySelectorAll(
+            "[data-action]"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const action =
+                        button.dataset.action;
+
+                    const id =
+                        button.dataset.id;
+
+
+                    if (
+                        action ===
+                        "reminder"
+                    ) {
+
+                        activateReminder(id);
+
+                    }
+
+                    if (
+                        action ===
+                        "cancel"
+                    ) {
+
+                        cancelAppointment(id);
+
+                    }
+
+                    if (
+                        action ===
+                        "reschedule"
+                    ) {
+
+                        rescheduleAppointment(id);
+
+                    }
+
+                }
             );
+
+        });
+}
+
+
+/* ============================================================
+   CANCELAR
+============================================================ */
+
+function cancelAppointment(id) {
+
+    const appointment =
+        appointments.find(
+            item =>
+                item.id === id
+        );
+
+    if (!appointment) return;
+
+
+    const confirmed =
+        confirm(
+            "Deseja realmente cancelar esta consulta?"
+        );
+
+
+    if (!confirmed) return;
+
+
+    appointment.status =
+        "cancelled";
+
+
+    saveAppointments();
+
+    renderAppointments();
+
+    showToast(
+        "Consulta cancelada."
+    );
+}
+
+
+/* ============================================================
+   REAGENDAR
+============================================================ */
+
+function rescheduleAppointment(id) {
+
+    const appointment =
+        appointments.find(
+            item =>
+                item.id === id
+        );
+
+    if (!appointment) return;
+
+
+    const ubs =
+        ubsList.find(
+            item =>
+                item.id ===
+                appointment.ubsId
+        );
+
+
+    const specialty =
+        ubs.specialties.find(
+            item =>
+                item.id ===
+                appointment.specialtyId
+        );
+
+
+    if (!ubs || !specialty) {
+
+        showToast(
+            "Não foi possível localizar a consulta."
+        );
+
+        return;
+    }
+
+
+    appointment.status =
+        "cancelled";
+
+
+    saveAppointments();
+
+
+    selectedUBS = ubs;
+
+    selectedSpecialty = specialty;
+
+    selectedDate = null;
+
+    selectedTime = null;
+
+
+    renderUBS();
+
+    renderSpecialties();
+
+    renderCalendar();
+
+
+    $("specialtySection")
+        .classList.remove("hidden");
+
+    $("scheduleSection")
+        .classList.remove("hidden");
+
+    $("confirmationSection")
+        .classList.add("hidden");
+
+
+    $("scheduleSection")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+    showToast(
+        "Escolha a nova data e horário."
+    );
+}
+
+
+/* ============================================================
+   NOTIFICAÇÕES
+============================================================ */
+
+async function requestNotificationPermission() {
+
+    if (
+        !("Notification" in window)
+    ) {
+
+        showToast(
+            "Seu navegador não oferece notificações."
+        );
+
+        return false;
+    }
+
+
+    if (
+        Notification.permission ===
+        "granted"
+    ) {
+
+        return true;
+    }
+
+
+    if (
+        Notification.permission ===
+        "denied"
+    ) {
+
+        showToast(
+            "As notificações estão bloqueadas no navegador."
+        );
+
+        return false;
+    }
+
+
+    try {
+
+        const permission =
+            await Notification.requestPermission();
+
+        if (
+            permission ===
+            "granted"
+        ) {
+
+            showToast(
+                "Lembretes ativados!"
+            );
+
+            return true;
+        }
+
+    } catch (error) {
+
+        console.error(error);
+    }
+
+
+    return false;
+}
+
+
+$("notificationBtn")
+    .addEventListener(
+        "click",
+        async () => {
+
+            const granted =
+                await requestNotificationPermission();
+
+            if (granted) {
+
+                try {
+
+                    new Notification(
+                        "Conecta Saúde",
+                        {
+                            body:
+                                "As notificações de suas consultas foram ativadas.",
+                            tag:
+                                "conecta-saude-test"
+                        }
+                    );
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    showToast(
+                        "Permissão ativada. No celular, a versão com Service Worker será necessária para notificações persistentes."
+                    );
+                }
+            }
 
         }
     );
 
-}
+
+async function activateReminder(id) {
+
+    const appointment =
+        appointments.find(
+            item =>
+                item.id === id
+        );
+
+    if (!appointment) return;
 
 
-// =====================================================
-// AGENDAR
-// =====================================================
-
-function realizarAgendamento(
-    periodo,
-    hora,
-    posicao
-) {
-
-    const agendamentos =
-        pegarAgendamentos();
+    const granted =
+        await requestNotificationPermission();
 
 
-    const novo = {
-
-        id:
-            Date.now().toString(),
-
-        paciente:
-            paciente.nome,
-
-        telefone:
-            paciente.telefone,
-
-        sus:
-            paciente.sus,
-
-        ubs:
-            ubsSelecionada.id,
-
-        nomeUBS:
-            ubsSelecionada.nome,
-
-        especialidade:
-            especialidadeSelecionada.id,
-
-        nomeEspecialidade:
-            especialidadeSelecionada.nome,
-
-        data:
-            dataSelecionada,
-
-        hora:
-            hora,
-
-        periodo:
-            periodo,
-
-        fila:
-            posicao,
-
-        status:
-            "ativo"
-
-    };
+    if (!granted) return;
 
 
-    agendamentos.push(novo);
+    appointment.reminder = true;
+
+    saveAppointments();
+
+    renderAppointments();
 
 
-    salvarAgendamentos(
-        agendamentos
+    showToast(
+        "Lembrete ativado para esta consulta."
     );
 
 
-    agendamentoAtual =
-        novo;
+    try {
+
+        if (
+            Notification.permission ===
+            "granted"
+        ) {
+
+            new Notification(
+                "Lembrete ativado",
+                {
+                    body:
+                        `Consulta em ${formatDate(
+                            appointment.date
+                        )} às ${appointment.time}.`,
+                    tag:
+                        `appointment-${appointment.id}`
+                }
+            );
+        }
+
+    } catch (error) {
+
+        console.log(
+            "Notificação imediata indisponível:",
+            error
+        );
+    }
+}
 
 
-    mostrarConfirmacao();
+/*
+    Verificação local dos lembretes.
+
+    Se o site estiver aberto, o navegador
+    poderá exibir o lembrete próximo
+    do horário.
+
+    Para notificações com o site fechado,
+    é necessário Service Worker + Push.
+*/
+
+function checkReminders() {
+
+    if (
+        !patient ||
+        !("Notification" in window) ||
+        Notification.permission !== "granted"
+    ) {
+
+        return;
+    }
+
+
+    const now =
+        new Date();
+
+
+    appointments
+        .filter(
+            appointment =>
+                appointment.sus ===
+                patient.sus &&
+
+                appointment.status ===
+                "confirmed" &&
+
+                appointment.reminder ===
+                true
+        )
+        .forEach(
+            appointment => {
+
+                const appointmentDate =
+                    new Date(
+                        `${appointment.date}T${appointment.time}:00`
+                    );
+
+
+                const difference =
+                    appointmentDate.getTime() -
+                    now.getTime();
+
+
+                /*
+                    Lembrete entre 30 e 31 minutos
+                    antes da consulta.
+                */
+
+                const thirtyMinutes =
+                    30 * 60 * 1000;
+
+
+                if (
+                    difference <=
+                    thirtyMinutes &&
+
+                    difference >
+                    thirtyMinutes - 60000
+                ) {
+
+                    try {
+
+                        new Notification(
+                            "Conecta Saúde - Lembrete",
+                            {
+                                body:
+                                    `Você tem consulta hoje às ${appointment.time}.`,
+                                tag:
+                                    `reminder-${appointment.id}`
+                            }
+                        );
+
+                    } catch (error) {
+
+                        console.error(error);
+                    }
+
+                }
+
+            }
+        );
+}
+
+
+setInterval(
+    checkReminders,
+    60000
+);
+
+
+/* ============================================================
+   NOVO AGENDAMENTO
+============================================================ */
+
+$("newAppointmentBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            selectedUBS = null;
+
+            selectedSpecialty = null;
+
+            selectedDate = null;
+
+            selectedTime = null;
+
+
+            $("confirmationSection")
+                .classList.add("hidden");
+
+            $("scheduleSection")
+                .classList.add("hidden");
+
+            $("specialtySection")
+                .classList.add("hidden");
+
+            $("infoSection")
+                .classList.add("hidden");
+
+
+            $("ubsSection")
+                .classList.remove("hidden");
+
+
+            renderUBS();
+
+            updateSteps(2);
+
+
+            $("ubsSection")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+        }
+    );
+
+
+$("startBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            $("patientCard")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+        }
+    );
+
+
+/* ============================================================
+   LOGIN
+============================================================ */
+
+$("staffLoginBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            openModal(
+                "loginModal"
+            );
+
+            $("loginUser").focus();
+        }
+    );
+
+
+$("loginForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const username =
+                $("loginUser")
+                    .value
+                    .trim();
+
+            const password =
+                $("loginPass")
+                    .value;
+
+
+            /*
+                LOGIN DO DESENVOLVEDOR
+            */
+
+            if (
+                username ===
+                "desenvolvedor" &&
+
+                password ===
+                "2026"
+            ) {
+
+                loggedUser = {
+                    type: "developer"
+                };
+
+                sessionStorage.setItem(
+                    STORAGE.SESSION,
+                    JSON.stringify(
+                        loggedUser
+                    )
+                );
+
+
+                closeModal(
+                    "loginModal"
+                );
+
+                openAdminPanel();
+
+                return;
+            }
+
+
+            /*
+                LOGIN DAS UBS
+            */
+
+            const ubs =
+                ubsList.find(
+                    item =>
+                        item.admin.user ===
+                        username &&
+
+                        item.admin.password ===
+                        password
+                );
+
+
+            if (!ubs) {
+
+                showToast(
+                    "Usuário ou senha incorretos."
+                );
+
+                return;
+            }
+
+
+            loggedUser = {
+
+                type: "ubs",
+
+                ubsId: ubs.id
+
+            };
+
+
+            sessionStorage.setItem(
+                STORAGE.SESSION,
+                JSON.stringify(
+                    loggedUser
+                )
+            );
+
+
+            closeModal(
+                "loginModal"
+            );
+
+            openAdminPanel();
+
+        }
+    );
+
+
+/* ============================================================
+   PAINEL ADMINISTRATIVO
+============================================================ */
+
+function openAdminPanel() {
+
+    if (!loggedUser) return;
+
+
+    if (
+        loggedUser.type ===
+        "developer"
+    ) {
+
+        $("panelRole")
+            .textContent =
+            "Administrador geral / Desenvolvedor";
+
+        $("developerSelector")
+            .classList.remove(
+                "hidden"
+            );
+
+
+        $("developerUBS").innerHTML =
+            ubsList
+                .map(
+                    ubs => `
+                        <option value="${ubs.id}">
+                            ${escapeHTML(
+                                ubs.name
+                            )}
+                        </option>
+                    `
+                )
+                .join("");
+
+
+        adminUBS =
+            ubsList[0];
+
+    } else {
+
+        $("developerSelector")
+            .classList.add(
+                "hidden"
+            );
+
+
+        adminUBS =
+            ubsList.find(
+                ubs =>
+                    ubs.id ===
+                    loggedUser.ubsId
+            );
+
+
+        $("panelRole")
+            .textContent =
+            "Administrador da unidade";
+
+    }
+
+
+    if (!adminUBS) {
+
+        showToast(
+            "Não foi possível carregar a UBS."
+        );
+
+        return;
+    }
+
+
+    $("panelTitle")
+        .textContent =
+        adminUBS.name;
+
+
+    populateAdminPanel();
+
+    openModal(
+        "panelModal"
+    );
+}
+
+
+$("developerUBS")
+    .addEventListener(
+        "change",
+        function() {
+
+            adminUBS =
+                ubsList.find(
+                    ubs =>
+                        ubs.id ===
+                        this.value
+                );
+
+
+            populateAdminPanel();
+        }
+    );
+
+
+function populateAdminPanel() {
+
+    if (!adminUBS) return;
+
+
+    $("panelTitle")
+        .textContent =
+        adminUBS.name;
+
+
+    populateDashboard();
+
+    populateUBSForm();
+
+    renderEmployeeAdmin();
+
+    renderSpecialtyAdmin();
+
+    renderCampaignAdmin();
+
+    populatePanelSpecialtyFilter();
 
 }
 
 
-// =====================================================
-// CONFIRMAÇÃO
-// =====================================================
+/* ============================================================
+   DASHBOARD
+============================================================ */
 
-function mostrarConfirmacao() {
+function populateDashboard() {
 
-    document
-        .getElementById(
-            "textoConfirmacao"
-        )
-        .textContent =
-        `${paciente.nome}, sua consulta foi agendada com sucesso.`;
+    const today =
+        todayString();
 
 
-    document
-        .getElementById(
-            "comprovanteTela"
-        )
+    const confirmed =
+        appointments.filter(
+            appointment =>
+
+                appointment.ubsId ===
+                adminUBS.id &&
+
+                appointment.status ===
+                "confirmed"
+        );
+
+
+    const todayAppointments =
+        confirmed.filter(
+            appointment =>
+                appointment.date ===
+                today
+        );
+
+
+    const cancelled =
+        appointments.filter(
+            appointment =>
+
+                appointment.ubsId ===
+                adminUBS.id &&
+
+                appointment.status ===
+                "cancelled"
+        );
+
+
+    $("dashboardStats")
         .innerHTML = `
 
-            <strong>
-                UBS:
-            </strong>
-            ${ubsSelecionada.nome}
+            <div class="stat-card">
 
-            <br><br>
+                <span>
+                    Consultas hoje
+                </span>
 
-            <strong>
-                Especialidade:
-            </strong>
-            ${especialidadeSelecionada.nome}
+                <strong>
+                    ${todayAppointments.length}
+                </strong>
 
-            <br><br>
+            </div>
 
-            <strong>
-                Data:
-            </strong>
-            ${formatarData(dataSelecionada)}
 
-            <br><br>
+            <div class="stat-card">
 
-            <strong>
-                Horário:
-            </strong>
-            ${agendamentoAtual.hora}
+                <span>
+                    Confirmadas
+                </span>
 
-            <div class="fila">
+                <strong>
+                    ${confirmed.length}
+                </strong>
 
-                ${agendamentoAtual.fila}º
+            </div>
 
-                <br>
 
-                <small>
-                    posição na fila
-                </small>
+            <div class="stat-card">
+
+                <span>
+                    Canceladas
+                </span>
+
+                <strong>
+                    ${cancelled.length}
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    Funcionários
+                </span>
+
+                <strong>
+                    ${adminUBS.employees.length}
+                </strong>
 
             </div>
 
         `;
 
 
-    document
-        .getElementById(
-            "btnImprimir"
-        )
-        .onclick =
-        imprimirComprovante;
-
-
-    mostrar("confirmacao");
-
+    renderPanelAppointments();
 }
 
 
-// =====================================================
-// IMPRESSÃO DO COMPROVANTE
-// =====================================================
-
-function imprimirComprovante() {
-
-    const a =
-        agendamentoAtual;
+$("panelDate")
+    .addEventListener(
+        "change",
+        renderPanelAppointments
+    );
 
 
-    const janela =
-        window.open(
-            "",
-            "_blank",
-            "width=800,height=700"
+$("panelSpecialty")
+    .addEventListener(
+        "change",
+        renderPanelAppointments
+    );
+
+
+$("panelPeriod")
+    .addEventListener(
+        "change",
+        renderPanelAppointments
+    );
+
+
+function populatePanelSpecialtyFilter() {
+
+    const select =
+        $("panelSpecialty");
+
+    select.innerHTML = `
+        <option value="">
+            Todas
+        </option>
+    `;
+
+
+    adminUBS.specialties
+        .forEach(
+            specialty => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    specialty.id;
+
+                option.textContent =
+                    specialty.name;
+
+                select.appendChild(
+                    option
+                );
+            }
+        );
+}
+
+
+function renderPanelAppointments() {
+
+    if (!adminUBS) return;
+
+
+    let filtered =
+        appointments.filter(
+            appointment =>
+                appointment.ubsId ===
+                adminUBS.id
         );
 
 
-    janela.document.write(`
+    const date =
+        $("panelDate").value;
+
+    const specialty =
+        $("panelSpecialty").value;
+
+    const period =
+        $("panelPeriod").value;
+
+
+    if (date) {
+
+        filtered =
+            filtered.filter(
+                appointment =>
+                    appointment.date ===
+                    date
+            );
+    }
+
+
+    if (specialty) {
+
+        filtered =
+            filtered.filter(
+                appointment =>
+                    appointment.specialtyId ===
+                    specialty
+            );
+    }
+
+
+    if (period) {
+
+        filtered =
+            filtered.filter(
+                appointment =>
+                    appointment.period ===
+                    period
+            );
+    }
+
+
+    filtered.sort(
+        (a, b) =>
+            `${a.date} ${a.time}`
+                .localeCompare(
+                    `${b.date} ${b.time}`
+                )
+    );
+
+
+    const container =
+        $("panelAppointments");
+
+
+    if (!filtered.length) {
+
+        container.innerHTML = `
+
+            <div class="admin-row">
+
+                <div class="admin-row-info">
+
+                    <strong>
+                        Nenhuma consulta encontrada.
+                    </strong>
+
+                    <span>
+                        Altere os filtros para consultar outros agendamentos.
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    filtered.forEach(
+        appointment => {
+
+            const specialty =
+                adminUBS.specialties
+                    .find(
+                        item =>
+                            item.id ===
+                            appointment.specialtyId
+                    );
+
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "panel-appointment";
+
+
+            item.innerHTML = `
+
+                <div class="panel-appointment-info">
+
+                    <strong>
+                        ${escapeHTML(
+                            appointment.patientName
+                        )}
+                    </strong>
+
+                    <span>
+
+                        ${formatDate(
+                            appointment.date
+                        )}
+                        •
+                        ${appointment.time}
+                        •
+                        ${escapeHTML(
+                            specialty?.name ||
+                            appointment.specialtyName
+                        )}
+
+                        <br>
+
+                        Cartão SUS:
+                        ${escapeHTML(
+                            appointment.sus
+                        )}
+
+                        <br>
+
+                        Celular:
+                        ${escapeHTML(
+                            appointment.phone
+                        )}
+
+                    </span>
+
+                </div>
+
+
+                <div class="admin-actions">
+
+                    <button
+                        class="edit-btn"
+                        data-panel-action="print"
+                        data-id="${appointment.id}"
+                    >
+                        🖨️ Imprimir
+                    </button>
+
+                    ${
+                        appointment.status ===
+                        "confirmed"
+
+                        ? `
+                            <button
+                                class="delete-btn"
+                                data-panel-action="cancel"
+                                data-id="${appointment.id}"
+                            >
+                                Cancelar
+                            </button>
+                        `
+                        : `
+                            <span class="appointment-status status-cancelled">
+                                Cancelada
+                            </span>
+                        `
+                    }
+
+                </div>
+
+            `;
+
+
+            container.appendChild(item);
+        }
+    );
+
+
+    container
+        .querySelectorAll(
+            "[data-panel-action]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const action =
+                            button.dataset
+                                .panelAction;
+
+                        const id =
+                            button.dataset.id;
+
+
+                        if (
+                            action ===
+                            "cancel"
+                        ) {
+
+                            adminCancelAppointment(
+                                id
+                            );
+
+                        }
+
+
+                        if (
+                            action ===
+                            "print"
+                        ) {
+
+                            printAppointment(
+                                id
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+}
+
+
+function adminCancelAppointment(
+    id
+) {
+
+    const appointment =
+        appointments.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!appointment) return;
+
+
+    if (
+        !confirm(
+            "Deseja cancelar esta consulta?"
+        )
+    ) {
+
+        return;
+    }
+
+
+    appointment.status =
+        "cancelled";
+
+
+    saveAppointments();
+
+    populateDashboard();
+
+    showToast(
+        "Consulta cancelada."
+    );
+}
+
+
+/* ============================================================
+   IMPRESSÃO
+============================================================ */
+
+function printAppointment(id) {
+
+    const appointment =
+        appointments.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!appointment) return;
+
+
+    const ubs =
+        ubsList.find(
+            item =>
+                item.id ===
+                appointment.ubsId
+        );
+
+
+    const html = `
 
         <!DOCTYPE html>
 
-        <html>
+        <html lang="pt-BR">
 
         <head>
+
+            <meta charset="UTF-8">
 
             <title>
                 Comprovante - Conecta Saúde
@@ -1169,34 +3407,31 @@ function imprimirComprovante() {
             <style>
 
                 body {
-                    font-family: Arial;
-                    padding: 40px;
+                    font-family: Arial, sans-serif;
+                    padding: 30px;
                     color: #173b3a;
                 }
 
-                .comprovante {
+                .box {
                     max-width: 650px;
                     margin: auto;
-                    border: 2px solid #0b9b8d;
+                    border: 1px solid #ddd;
                     border-radius: 15px;
                     padding: 30px;
                 }
 
                 h1 {
-                    color: #0b9b8d;
+                    color: #0b8f8a;
                 }
 
-                .linha {
+                .item {
                     padding: 12px 0;
-                    border-bottom: 1px solid #ddd;
+                    border-bottom: 1px solid #eee;
                 }
 
-                .fila {
-                    text-align: center;
-                    font-size: 55px;
-                    color: #0b9b8d;
-                    font-weight: bold;
-                    margin: 25px;
+                strong {
+                    display: block;
+                    margin-bottom: 5px;
                 }
 
             </style>
@@ -1205,427 +3440,208 @@ function imprimirComprovante() {
 
         <body>
 
-            <div class="comprovante">
+            <div class="box">
 
                 <h1>
                     Conecta Saúde
                 </h1>
 
                 <h2>
-                    Comprovante de Agendamento
+                    Comprovante de agendamento
                 </h2>
 
+                <div class="item">
 
-                <div class="linha">
-                    <b>Paciente:</b>
-                    ${a.paciente}
-                </div>
+                    <strong>
+                        Paciente
+                    </strong>
 
-
-                <div class="linha">
-                    <b>Cartão SUS:</b>
-                    ${a.sus}
-                </div>
-
-
-                <div class="linha">
-                    <b>UBS:</b>
-                    ${a.nomeUBS}
-                </div>
-
-
-                <div class="linha">
-                    <b>Especialidade:</b>
-                    ${a.nomeEspecialidade}
-                </div>
-
-
-                <div class="linha">
-                    <b>Data:</b>
-                    ${formatarData(a.data)}
-                </div>
-
-
-                <div class="linha">
-                    <b>Horário:</b>
-                    ${a.hora}
-                </div>
-
-
-                <div class="fila">
-
-                    ${a.fila}º
-
-                    <br>
-
-                    <small>
-                        posição na fila
-                    </small>
+                    ${escapeHTML(
+                        appointment.patientName
+                    )}
 
                 </div>
 
+
+                <div class="item">
+
+                    <strong>
+                        UBS
+                    </strong>
+
+                    ${escapeHTML(
+                        ubs?.name || ""
+                    )}
+
+                </div>
+
+
+                <div class="item">
+
+                    <strong>
+                        Especialidade
+                    </strong>
+
+                    ${escapeHTML(
+                        appointment.specialtyName
+                    )}
+
+                </div>
+
+
+                <div class="item">
+
+                    <strong>
+                        Data
+                    </strong>
+
+                    ${formatDate(
+                        appointment.date
+                    )}
+
+                </div>
+
+
+                <div class="item">
+
+                    <strong>
+                        Horário
+                    </strong>
+
+                    ${appointment.time}
+
+                </div>
+
+
+                <div class="item">
+
+                    <strong>
+                        Posição na fila
+                    </strong>
+
+                    ${appointment.queue}º
+
+                </div>
+
+
+                <br>
 
                 <p>
-                    Apresente este comprovante no atendimento da UBS.
+                    Apresente o Cartão SUS
+                    e documento de identificação
+                    no atendimento.
                 </p>
 
             </div>
+
+            <script>
+                window.onload = function() {
+                    window.print();
+                };
+            <\/script>
 
         </body>
 
         </html>
 
-    `);
+    `;
 
 
-    janela.document.close();
+    const printWindow =
+        window.open(
+            "",
+            "_blank"
+        );
 
 
-    janela.focus();
+    if (!printWindow) {
 
-
-    janela.print();
-
-}
-
-
-// =====================================================
-// MEUS AGENDAMENTOS
-// =====================================================
-
-document
-    .getElementById(
-        "btnMeusAgendamentos"
-    )
-    .onclick =
-    mostrarAgendamentos;
-
-
-document
-    .getElementById(
-        "btnVerAgendamentos"
-    )
-    .onclick =
-    mostrarAgendamentos;
-
-
-function mostrarAgendamentos() {
-
-    if (!paciente) {
-
-        mensagem(
-            "Faça seu cadastro primeiro."
+        showToast(
+            "Permita janelas pop-up para imprimir."
         );
 
         return;
-
     }
 
 
-    const lista =
-        document.getElementById(
-            "listaAgendamentos"
-        );
-
-
-    const agendamentos =
-        pegarAgendamentos()
-        .filter(
-            a =>
-            a.sus ===
-            paciente.sus
-        );
-
-
-    if (!agendamentos.length) {
-
-        lista.innerHTML =
-            "<p>Nenhum agendamento encontrado.</p>";
-
-    }
-
-    else {
-
-        lista.innerHTML =
-            "";
-
-
-        agendamentos
-            .reverse()
-            .forEach(a => {
-
-                const div =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                div.className =
-                    "consulta";
-
-
-                div.innerHTML = `
-
-                    <div>
-
-                        <strong>
-                            ${a.nomeUBS}
-                        </strong>
-
-                        <br>
-
-                        ${a.nomeEspecialidade}
-
-                        <br>
-
-                        📅
-                        ${formatarData(a.data)}
-
-                        •
-                        🕐
-                        ${a.hora}
-
-                        <br>
-
-                        ${
-                            a.status === "ativo"
-                            ?
-                            `👥 ${a.fila}º na fila`
-                            :
-                            "Consulta cancelada"
-                        }
-
-                    </div>
-
-
-                    <div>
-
-                        ${
-                            a.status === "ativo"
-
-                            ?
-
-                            `
-
-                                <button
-                                    class="editar"
-                                    onclick="imprimirAgendamento('${a.id}')"
-                                >
-                                    🖨 Imprimir
-                                </button>
-
-                                <button
-                                    class="editar"
-                                    onclick="reagendar('${a.id}')"
-                                >
-                                    Reagendar
-                                </button>
-
-                                <button
-                                    class="danger"
-                                    onclick="cancelar('${a.id}')"
-                                >
-                                    Cancelar
-                                </button>
-
-                            `
-
-                            :
-
-                            ""
-
-                        }
-
-                    </div>
-
-                `;
-
-
-                lista.appendChild(
-                    div
-                );
-
-            });
-
-    }
-
-
-    mostrar(
-        "meusAgendamentos"
+    printWindow.document.write(
+        html
     );
 
+    printWindow.document.close();
 }
 
 
-// =====================================================
-// IMPRIMIR AGENDAMENTO EXISTENTE
-// =====================================================
+/* ============================================================
+   DADOS DA UBS
+============================================================ */
 
-function imprimirAgendamento(id) {
+function populateUBSForm() {
 
-    const agendamento =
-        pegarAgendamentos()
-        .find(
-            a =>
-            a.id === id
-        );
+    $("editUBSName").value =
+        adminUBS.name;
 
+    $("editUBSPhone").value =
+        adminUBS.phone;
 
-    if (!agendamento)
-        return;
+    $("editUBSAddress").value =
+        adminUBS.address;
 
+    $("editUBSHours").value =
+        adminUBS.hours;
 
-    agendamentoAtual =
-        agendamento;
+    $("editUBSDocs").value =
+        adminUBS.docs.join("\n");
 
+    $("editAdminUser").value =
+        adminUBS.admin.user;
 
-    imprimirComprovante();
-
+    $("editAdminPassword").value =
+        "";
 }
 
 
-// =====================================================
-// CANCELAR
-// =====================================================
+$("ubsEditForm")
+    .addEventListener(
+        "submit",
+        function(event) {
 
-function cancelar(id) {
+            event.preventDefault();
 
-    if (
-        !confirm(
-            "Deseja cancelar esta consulta?"
-        )
-    )
-        return;
+            adminUBS.name =
+                $("editUBSName").value.trim();
 
+            adminUBS.phone =
+                $("editUBSPhone").value.trim();
 
-    const lista =
-        pegarAgendamentos();
+            adminUBS.address =
+                $("editUBSAddress").value.trim();
 
-
-    const agendamento =
-        lista.find(
-            a =>
-            a.id === id
-        );
+            adminUBS.hours =
+                $("editUBSHours").value.trim();
 
 
-    if (agendamento) {
+            adminUBS.docs =
+                $("editUBSDocs")
+                    .value
+                    .split("\n")
+                    .map(item => item.trim())
+                    .filter(Boolean);
 
-        agendamento.status =
-            "cancelado";
 
-    }
+            saveUBS();
 
+            refreshReferences();
 
-    salvarAgendamentos(
-        lista
+            showToast(
+                "Informações da UBS atualizadas."
+            );
+
+        }
     );
 
 
-    mostrarAgendamentos();
-
-
-    mensagem(
-        "Consulta cancelada."
-    );
-
-}
-
-
-// =====================================================
-// REAGENDAR
-// =====================================================
-
-function reagendar(id) {
-
-    const lista =
-        pegarAgendamentos();
-
-
-    const agendamento =
-        lista.find(
-            a =>
-            a.id === id
-        );
-
-
-    if (!agendamento)
-        return;
-
-
-    agendamento.status =
-        "cancelado";
-
-
-    salvarAgendamentos(
-        lista
-    );
-
-
-    ubsSelecionada =
-        UBS.find(
-            u =>
-            u.id ===
-            agendamento.ubs
-        );
-
-
-    especialidadeSelecionada =
-        especialidades.find(
-            e =>
-            e.id ===
-            agendamento.especialidade
-        );
-
-
-    document
-        .getElementById(
-            "resumoAgendamento"
-        )
-        .textContent =
-        `${ubsSelecionada.nome} • ${especialidadeSelecionada.nome}`;
-
-
-    configurarCalendario();
-
-
-    mostrar(
-        "agendaSection"
-    );
-
-
-    mensagem(
-        "Escolha uma nova data e horário."
-    );
-
-}
-
-
-// =====================================================
-// LOGIN FUNCIONÁRIO
-// =====================================================
-
-document
-    .getElementById(
-        "btnFuncionario"
-    )
-    .onclick =
-    function() {
-
-        document
-            .getElementById(
-                "modalLogin"
-            )
-            .classList
-            .remove("hidden");
-
-    };
-
-
-document
-    .getElementById(
-        "formLogin"
-    )
+$("credentialsForm")
     .addEventListener(
         "submit",
         function(event) {
@@ -1633,541 +3649,106 @@ document
             event.preventDefault();
 
 
-            const usuario =
-                document
-                    .getElementById(
-                        "usuario"
-                    )
+            const username =
+                $("editAdminUser")
+                    .value
+                    .trim();
+
+
+            const password =
+                $("editAdminPassword")
                     .value;
 
 
-            const senha =
-                document
-                    .getElementById(
-                        "senha"
-                    )
-                    .value;
+            if (!username) {
 
-
-            if (
-                usuario === "admin" &&
-                senha === "1234"
-            ) {
-
-                document
-                    .getElementById(
-                        "modalLogin"
-                    )
-                    .classList
-                    .add("hidden");
-
-
-                abrirPainel();
-
-            }
-
-            else {
-
-                mensagem(
-                    "Usuário ou senha incorretos."
+                showToast(
+                    "Informe um usuário."
                 );
 
-            }
-
-        }
-    );
-
-
-// =====================================================
-// PAINEL
-// =====================================================
-
-function abrirPainel() {
-
-    preencherUBSsPainel();
-
-
-    document
-        .getElementById(
-            "modalPainel"
-        )
-        .classList
-        .remove("hidden");
-
-
-    carregarConsultas();
-
-
-    carregarFuncionariosPainel();
-
-}
-
-
-function preencherUBSsPainel() {
-
-    const select =
-        document.getElementById(
-            "filtroUBS"
-        );
-
-
-    const selectFuncionarios =
-        document.getElementById(
-            "funcionarioUBS"
-        );
-
-
-    select.innerHTML = "";
-
-    selectFuncionarios.innerHTML = "";
-
-
-    UBS.forEach(ubs => {
-
-        select.innerHTML += `
-            <option value="${ubs.id}">
-                ${ubs.nome}
-            </option>
-        `;
-
-
-        selectFuncionarios.innerHTML += `
-            <option value="${ubs.id}">
-                ${ubs.nome}
-            </option>
-        `;
-
-    });
-
-}
-
-
-// =====================================================
-// CONSULTAS NO PAINEL
-// =====================================================
-
-function carregarConsultas() {
-
-    const idUBS =
-        document.getElementById(
-            "filtroUBS"
-        ).value;
-
-
-    const data =
-        document.getElementById(
-            "filtroData"
-        ).value;
-
-
-    let consultas =
-        pegarAgendamentos()
-        .filter(
-            a =>
-            a.ubs === idUBS &&
-            a.status === "ativo"
-        );
-
-
-    if (data) {
-
-        consultas =
-            consultas.filter(
-                a =>
-                a.data === data
-            );
-
-    }
-
-
-    const lista =
-        document.getElementById(
-            "listaConsultas"
-        );
-
-
-    lista.innerHTML = "";
-
-
-    if (!consultas.length) {
-
-        lista.innerHTML =
-            "<p>Nenhuma consulta encontrada.</p>";
-
-        return;
-
-    }
-
-
-    consultas.forEach(
-        consulta => {
-
-            lista.innerHTML += `
-
-                <div class="consulta">
-
-                    <div>
-
-                        <strong>
-                            ${consulta.hora}
-                        </strong>
-
-                        -
-                        ${consulta.paciente}
-
-                        <br>
-
-                        ${consulta.nomeEspecialidade}
-
-                        <br>
-
-                        Cartão SUS:
-                        ${consulta.sus}
-
-                    </div>
-
-
-                    <button
-                        class="danger"
-                        onclick="cancelarPeloPainel('${consulta.id}')"
-                    >
-                        Cancelar
-                    </button>
-
-                </div>
-
-            `;
-
-        }
-    );
-
-}
-
-
-document
-    .getElementById(
-        "filtroUBS"
-    )
-    .addEventListener(
-        "change",
-        carregarConsultas
-    );
-
-
-document
-    .getElementById(
-        "filtroData"
-    )
-    .addEventListener(
-        "change",
-        carregarConsultas
-    );
-
-
-function cancelarPeloPainel(id) {
-
-    if (
-        !confirm(
-            "Cancelar esta consulta?"
-        )
-    )
-        return;
-
-
-    const lista =
-        pegarAgendamentos();
-
-
-    const agendamento =
-        lista.find(
-            a =>
-            a.id === id
-        );
-
-
-    if (agendamento) {
-
-        agendamento.status =
-            "cancelado";
-
-    }
-
-
-    salvarAgendamentos(
-        lista
-    );
-
-
-    carregarConsultas();
-
-
-    mensagem(
-        "Consulta cancelada."
-    );
-
-}
-
-
-// =====================================================
-// FUNCIONÁRIOS
-// =====================================================
-
-document
-    .getElementById(
-        "formFuncionario"
-    )
-    .addEventListener(
-        "submit",
-        function(event) {
-
-            event.preventDefault();
-
-
-            const ubs =
-                document
-                    .getElementById(
-                        "funcionarioUBS"
-                    )
-                    .value;
-
-
-            const nome =
-                document
-                    .getElementById(
-                        "funcionarioNome"
-                    )
-                    .value
-                    .trim();
-
-
-            const funcao =
-                document
-                    .getElementById(
-                        "funcionarioFuncao"
-                    )
-                    .value
-                    .trim();
-
-
-            const funcionarios =
-                pegarFuncionarios();
-
-
-            if (!funcionarios[ubs]) {
-
-                funcionarios[ubs] = [];
-
+                return;
             }
 
 
-            funcionarios[ubs].push({
-
-                id:
-                    Date.now().toString(),
-
-                nome,
-
-                funcao
-
-            });
+            adminUBS.admin.user =
+                username;
 
 
-            salvarFuncionarios(
-                funcionarios
-            );
+            if (password) {
+
+                adminUBS.admin.password =
+                    password;
+            }
 
 
-            event.target.reset();
+            saveUBS();
+
+            $("editAdminPassword")
+                .value = "";
 
 
-            carregarFuncionariosPainel();
-
-
-            mensagem(
-                "Funcionário adicionado."
+            showToast(
+                "Acesso da UBS atualizado."
             );
 
         }
     );
 
 
-// =====================================================
-// LISTAR FUNCIONÁRIOS
-// =====================================================
+function refreshReferences() {
 
-function carregarFuncionariosPainel() {
-
-    const ubs =
-        document
-            .getElementById(
-                "funcionarioUBS"
+    ubsList =
+        JSON.parse(
+            localStorage.getItem(
+                STORAGE.UBS
             )
-            .value;
+        );
 
 
-    const funcionarios =
-        pegarFuncionarios();
+    if (selectedUBS) {
 
-
-    const lista =
-        funcionarios[ubs] || [];
-
-
-    const div =
-        document
-            .getElementById(
-                "listaFuncionariosPainel"
-            );
-
-
-    div.innerHTML = "";
-
-
-    if (!lista.length) {
-
-        div.innerHTML =
-            "<p>Nenhum funcionário cadastrado pelo painel.</p>";
-
-        return;
-
+        selectedUBS =
+            ubsList.find(
+                item =>
+                    item.id ===
+                    selectedUBS.id
+            ) || null;
     }
 
 
-    lista.forEach(
-        funcionario => {
+    if (adminUBS) {
 
-            div.innerHTML += `
-
-                <div class="funcionario-linha">
-
-                    <div>
-
-                        <strong>
-                            ${funcionario.nome}
-                        </strong>
-
-                        <br>
-
-                        <small>
-                            ${funcionario.funcao}
-                        </small>
-
-                    </div>
-
-
-                    <div
-                        class="acoes-funcionario"
-                    >
-
-                        <button
-                            class="editar"
-                            onclick="editarFuncionario('${funcionario.id}')"
-                        >
-                            Editar
-                        </button>
-
-
-                        <button
-                            class="danger"
-                            onclick="excluirFuncionario('${funcionario.id}')"
-                        >
-                            Excluir
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }
-    );
-
-}
-
-
-// =====================================================
-// EDITAR FUNCIONÁRIO
-// =====================================================
-
-function editarFuncionario(id) {
-
-    const dados =
-        pegarFuncionarios();
-
-
-    let funcionarioEncontrado =
-        null;
-
-
-    for (
-        const ubs in dados
-    ) {
-
-        const funcionario =
-            dados[ubs].find(
-                f =>
-                f.id === id
-            );
-
-
-        if (funcionario) {
-
-            funcionarioEncontrado =
-                funcionario;
-
-            break;
-
-        }
-
+        adminUBS =
+            ubsList.find(
+                item =>
+                    item.id ===
+                    adminUBS.id
+            ) || null;
     }
 
 
-    if (!funcionarioEncontrado)
-        return;
+    renderUBS();
+
+    if (selectedUBS) {
+
+        renderSpecialties();
+
+        renderInfo();
+    }
 
 
-    document
-        .getElementById(
-            "editarId"
-        )
-        .value = id;
+    if (adminUBS) {
 
-
-    document
-        .getElementById(
-            "editarNome"
-        )
-        .value =
-        funcionarioEncontrado.nome;
-
-
-    document
-        .getElementById(
-            "editarFuncao"
-        )
-        .value =
-        funcionarioEncontrado.funcao;
-
-
-    document
-        .getElementById(
-            "modalEditar"
-        )
-        .classList
-        .remove("hidden");
-
+        populateAdminPanel();
+    }
 }
 
 
-// =====================================================
-// SALVAR EDIÇÃO
-// =====================================================
+/* ============================================================
+   FUNCIONÁRIOS
+============================================================ */
 
-document
-    .getElementById(
-        "formEditar"
-    )
+$("employeeForm")
     .addEventListener(
         "submit",
         function(event) {
@@ -2176,257 +3757,1070 @@ document
 
 
             const id =
-                document
-                    .getElementById(
-                        "editarId"
-                    )
+                $("employeeEditId")
                     .value;
 
 
-            const nome =
-                document
-                    .getElementById(
-                        "editarNome"
-                    )
+            const name =
+                $("employeeName")
                     .value
                     .trim();
 
 
-            const funcao =
-                document
-                    .getElementById(
-                        "editarFuncao"
-                    )
+            const role =
+                $("employeeRole")
                     .value
                     .trim();
 
 
-            const dados =
-                pegarFuncionarios();
+            if (!name || !role) {
+
+                showToast(
+                    "Preencha nome e função."
+                );
+
+                return;
+            }
 
 
-            for (
-                const ubs in dados
-            ) {
+            if (id) {
 
-                const funcionario =
-                    dados[ubs].find(
-                        f =>
-                        f.id === id
-                    );
+                const employee =
+                    adminUBS.employees
+                        .find(
+                            item =>
+                                item.id ===
+                                id
+                        );
 
 
-                if (funcionario) {
+                if (employee) {
 
-                    funcionario.nome =
-                        nome;
+                    employee.name =
+                        name;
 
-                    funcionario.funcao =
-                        funcao;
-
+                    employee.role =
+                        role;
                 }
+
+            } else {
+
+                adminUBS.employees.push({
+
+                    id:
+                        generateId(
+                            adminUBS.id
+                        ),
+
+                    name,
+
+                    role
+
+                });
 
             }
 
 
-            salvarFuncionarios(
-                dados
+            saveUBS();
+
+            resetEmployeeForm();
+
+            renderEmployeeAdmin();
+
+            populateDashboard();
+
+            refreshReferences();
+
+            showToast(
+                "Funcionário salvo."
             );
-
-
-            document
-                .getElementById(
-                    "modalEditar"
-                )
-                .classList
-                .add("hidden");
-
-
-            carregarFuncionariosPainel();
-
-
-            mensagem(
-                "Funcionário atualizado."
-            );
-
         }
     );
 
 
-// =====================================================
-// EXCLUIR FUNCIONÁRIO
-// =====================================================
+function renderEmployeeAdmin() {
 
-function excluirFuncionario(id) {
+    const list =
+        $("employeeList");
 
-    if (
-        !confirm(
-            "Deseja realmente excluir este funcionário?"
+    list.innerHTML = "";
+
+
+    adminUBS.employees
+        .forEach(employee => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "admin-row";
+
+
+            row.innerHTML = `
+
+                <div class="admin-row-info">
+
+                    <strong>
+                        ${escapeHTML(
+                            employee.name
+                        )}
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(
+                            employee.role
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="admin-actions">
+
+                    <button
+                        class="edit-btn"
+                        data-employee-edit="${employee.id}"
+                    >
+                        Editar
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        data-employee-delete="${employee.id}"
+                    >
+                        Excluir
+                    </button>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(row);
+
+        });
+
+
+    list
+        .querySelectorAll(
+            "[data-employee-edit]"
         )
-    )
-        return;
+        .forEach(button => {
 
+            button.addEventListener(
+                "click",
+                () => {
 
-    const dados =
-        pegarFuncionarios();
+                    editEmployee(
+                        button.dataset
+                            .employeeEdit
+                    );
 
-
-    for (
-        const ubs in dados
-    ) {
-
-        dados[ubs] =
-            dados[ubs].filter(
-                funcionario =>
-                funcionario.id !== id
+                }
             );
 
-    }
+        });
 
 
-    salvarFuncionarios(
-        dados
-    );
+    list
+        .querySelectorAll(
+            "[data-employee-delete]"
+        )
+        .forEach(button => {
 
+            button.addEventListener(
+                "click",
+                () => {
 
-    carregarFuncionariosPainel();
+                    deleteEmployee(
+                        button.dataset
+                            .employeeDelete
+                    );
 
+                }
+            );
 
-    mensagem(
-        "Funcionário excluído."
-    );
-
+        });
 }
 
 
-// =====================================================
-// TABS DO PAINEL
-// =====================================================
+function editEmployee(id) {
+
+    const employee =
+        adminUBS.employees
+            .find(
+                item =>
+                    item.id === id
+            );
+
+
+    if (!employee) return;
+
+
+    $("employeeEditId").value =
+        employee.id;
+
+    $("employeeName").value =
+        employee.name;
+
+    $("employeeRole").value =
+        employee.role;
+
+
+    $("cancelEmployeeEdit")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    $("employeeName").focus();
+}
+
+
+function deleteEmployee(id) {
+
+    if (
+        !confirm(
+            "Excluir este funcionário?"
+        )
+    ) {
+
+        return;
+    }
+
+
+    adminUBS.employees =
+        adminUBS.employees.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    saveUBS();
+
+    renderEmployeeAdmin();
+
+    populateDashboard();
+
+    showToast(
+        "Funcionário excluído."
+    );
+}
+
+
+function resetEmployeeForm() {
+
+    $("employeeEditId")
+        .value = "";
+
+    $("employeeName")
+        .value = "";
+
+    $("employeeRole")
+        .value = "";
+
+    $("cancelEmployeeEdit")
+        .classList.add(
+            "hidden"
+        );
+}
+
+
+$("cancelEmployeeEdit")
+    .addEventListener(
+        "click",
+        resetEmployeeForm
+    );
+
+
+/* ============================================================
+   ESPECIALIDADES ADMIN
+============================================================ */
+
+$("specialtyForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const id =
+                $("specialtyEditId")
+                    .value;
+
+
+            const name =
+                $("specialtyName")
+                    .value
+                    .trim();
+
+
+            const description =
+                $("specialtyDescription")
+                    .value
+                    .trim();
+
+
+            if (!name) {
+
+                showToast(
+                    "Informe o nome da especialidade."
+                );
+
+                return;
+            }
+
+
+            if (id) {
+
+                const specialty =
+                    adminUBS.specialties
+                        .find(
+                            item =>
+                                item.id ===
+                                id
+                        );
+
+
+                if (specialty) {
+
+                    specialty.name =
+                        name;
+
+                    specialty.description =
+                        description;
+                }
+
+            } else {
+
+                adminUBS.specialties.push({
+
+                    id:
+                        generateId(
+                            "ESP"
+                        ),
+
+                    name,
+
+                    icon: "🩺",
+
+                    description
+
+                });
+
+            }
+
+
+            saveUBS();
+
+            resetSpecialtyForm();
+
+            renderSpecialtyAdmin();
+
+            populatePanelSpecialtyFilter();
+
+            refreshReferences();
+
+            showToast(
+                "Especialidade salva."
+            );
+        }
+    );
+
+
+function renderSpecialtyAdmin() {
+
+    const list =
+        $("specialtyList");
+
+    list.innerHTML = "";
+
+
+    adminUBS.specialties
+        .forEach(
+            specialty => {
+
+                const row =
+                    document.createElement(
+                        "div"
+                    );
+
+                row.className =
+                    "admin-row";
+
+
+                row.innerHTML = `
+
+                    <div class="admin-row-info">
+
+                        <strong>
+                            ${escapeHTML(
+                                specialty.icon ||
+                                "🩺"
+                            )}
+                            ${escapeHTML(
+                                specialty.name
+                            )}
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(
+                                specialty.description ||
+                                ""
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="admin-actions">
+
+                        <button
+                            class="edit-btn"
+                            data-specialty-edit="${specialty.id}"
+                        >
+                            Editar
+                        </button>
+
+                        <button
+                            class="delete-btn"
+                            data-specialty-delete="${specialty.id}"
+                        >
+                            Excluir
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                list.appendChild(row);
+
+            }
+        );
+
+
+    list
+        .querySelectorAll(
+            "[data-specialty-edit]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        editSpecialty(
+                            button.dataset
+                                .specialtyEdit
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    list
+        .querySelectorAll(
+            "[data-specialty-delete]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        deleteSpecialty(
+                            button.dataset
+                                .specialtyDelete
+                        );
+
+                    }
+                );
+
+            }
+        );
+}
+
+
+function editSpecialty(id) {
+
+    const specialty =
+        adminUBS.specialties
+            .find(
+                item =>
+                    item.id === id
+            );
+
+
+    if (!specialty) return;
+
+
+    $("specialtyEditId").value =
+        specialty.id;
+
+    $("specialtyName").value =
+        specialty.name;
+
+    $("specialtyDescription")
+        .value =
+        specialty.description || "";
+
+
+    $("cancelSpecialtyEdit")
+        .classList.remove(
+            "hidden"
+        );
+}
+
+
+function deleteSpecialty(id) {
+
+    if (
+        adminUBS.specialties.length <=
+        1
+    ) {
+
+        showToast(
+            "A UBS precisa ter pelo menos uma especialidade."
+        );
+
+        return;
+    }
+
+
+    if (
+        !confirm(
+            "Excluir esta especialidade?"
+        )
+    ) {
+
+        return;
+    }
+
+
+    adminUBS.specialties =
+        adminUBS.specialties.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    saveUBS();
+
+    renderSpecialtyAdmin();
+
+    populatePanelSpecialtyFilter();
+
+    refreshReferences();
+
+    showToast(
+        "Especialidade excluída."
+    );
+}
+
+
+function resetSpecialtyForm() {
+
+    $("specialtyEditId")
+        .value = "";
+
+    $("specialtyName")
+        .value = "";
+
+    $("specialtyDescription")
+        .value = "";
+
+
+    $("cancelSpecialtyEdit")
+        .classList.add(
+            "hidden"
+        );
+}
+
+
+$("cancelSpecialtyEdit")
+    .addEventListener(
+        "click",
+        resetSpecialtyForm
+    );
+
+
+/* ============================================================
+   CAMPANHAS
+============================================================ */
+
+$("campaignForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const index =
+                $("campaignEditIndex")
+                    .value;
+
+
+            const name =
+                $("campaignName")
+                    .value
+                    .trim();
+
+
+            if (!name) {
+
+                showToast(
+                    "Informe o nome da campanha."
+                );
+
+                return;
+            }
+
+
+            if (index !== "") {
+
+                adminUBS.campaigns[
+                    Number(index)
+                ] = name;
+
+            } else {
+
+                adminUBS.campaigns.push(
+                    name
+                );
+            }
+
+
+            saveUBS();
+
+            resetCampaignForm();
+
+            renderCampaignAdmin();
+
+            refreshReferences();
+
+            showToast(
+                "Campanha salva."
+            );
+        }
+    );
+
+
+function renderCampaignAdmin() {
+
+    const list =
+        $("campaignList");
+
+    list.innerHTML = "";
+
+
+    adminUBS.campaigns
+        .forEach(
+            (campaign, index) => {
+
+                const row =
+                    document.createElement(
+                        "div"
+                    );
+
+                row.className =
+                    "admin-row";
+
+
+                row.innerHTML = `
+
+                    <div class="admin-row-info">
+
+                        <strong>
+                            📢 ${escapeHTML(
+                                campaign
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="admin-actions">
+
+                        <button
+                            class="edit-btn"
+                            data-campaign-edit="${index}"
+                        >
+                            Editar
+                        </button>
+
+                        <button
+                            class="delete-btn"
+                            data-campaign-delete="${index}"
+                        >
+                            Excluir
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                list.appendChild(row);
+
+            }
+        );
+
+
+    list
+        .querySelectorAll(
+            "[data-campaign-edit]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        editCampaign(
+                            Number(
+                                button.dataset
+                                    .campaignEdit
+                            )
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    list
+        .querySelectorAll(
+            "[data-campaign-delete]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        deleteCampaign(
+                            Number(
+                                button.dataset
+                                    .campaignDelete
+                            )
+                        );
+
+                    }
+                );
+
+            }
+        );
+}
+
+
+function editCampaign(index) {
+
+    $("campaignEditIndex")
+        .value = index;
+
+    $("campaignName")
+        .value =
+        adminUBS.campaigns[index];
+
+
+    $("cancelCampaignEdit")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    $("campaignName").focus();
+}
+
+
+function deleteCampaign(index) {
+
+    if (
+        !confirm(
+            "Excluir esta campanha?"
+        )
+    ) {
+
+        return;
+    }
+
+
+    adminUBS.campaigns.splice(
+        index,
+        1
+    );
+
+
+    saveUBS();
+
+    renderCampaignAdmin();
+
+    refreshReferences();
+
+    showToast(
+        "Campanha excluída."
+    );
+}
+
+
+function resetCampaignForm() {
+
+    $("campaignEditIndex")
+        .value = "";
+
+    $("campaignName")
+        .value = "";
+
+
+    $("cancelCampaignEdit")
+        .classList.add(
+            "hidden"
+        );
+}
+
+
+$("cancelCampaignEdit")
+    .addEventListener(
+        "click",
+        resetCampaignForm
+    );
+
+
+/* ============================================================
+   ABAS DO PAINEL
+============================================================ */
 
 document
     .querySelectorAll(
-        ".tab-painel"
+        ".panel-tab"
     )
-    .forEach(
-        botao => {
+    .forEach(tab => {
 
-            botao.onclick =
-            function() {
+        tab.addEventListener(
+            "click",
+            () => {
 
                 document
                     .querySelectorAll(
-                        ".tab-painel"
+                        ".panel-tab"
                     )
                     .forEach(
-                        b =>
-                        b.classList.remove(
-                            "active"
-                        )
+                        item =>
+                            item.classList.remove(
+                                "active"
+                            )
                     );
 
 
-                this.classList.add(
+                document
+                    .querySelectorAll(
+                        ".panel-page"
+                    )
+                    .forEach(
+                        page =>
+                            page.classList.remove(
+                                "active"
+                            )
+                    );
+
+
+                tab.classList.add(
                     "active"
                 );
 
 
-                const tab =
-                    this.dataset.tab;
+                const page =
+                    $("panel-" +
+                        tab.dataset.panel);
 
 
-                document
-                    .getElementById(
-                        "painelConsultas"
-                    )
-                    .classList
-                    .toggle(
-                        "hidden",
-                        tab !== "consultas"
+                if (page) {
+
+                    page.classList.add(
+                        "active"
                     );
-
-
-                document
-                    .getElementById(
-                        "painelFuncionarios"
-                    )
-                    .classList
-                    .toggle(
-                        "hidden",
-                        tab !== "funcionarios"
-                    );
+                }
 
 
                 if (
-                    tab === "funcionarios"
+                    tab.dataset.panel ===
+                    "dashboard"
                 ) {
 
-                    carregarFuncionariosPainel();
+                    populateDashboard();
 
                 }
 
-            };
+            }
+        );
 
-        }
-    );
-
-
-// =====================================================
-// MUDANÇA DA UBS NO CADASTRO DE FUNCIONÁRIO
-// =====================================================
-
-document
-    .getElementById(
-        "funcionarioUBS"
-    )
-    .addEventListener(
-        "change",
-        carregarFuncionariosPainel
-    );
+    });
 
 
-// =====================================================
-// SAIR
-// =====================================================
-
-document
-    .getElementById(
-        "btnSair"
-    )
-    .onclick =
-    function() {
-
-        document
-            .getElementById(
-                "modalPainel"
-            )
-            .classList
-            .add("hidden");
-
-    };
-
-
-// =====================================================
-// FECHAR MODAIS
-// =====================================================
+/* ============================================================
+   FECHAR MODAIS
+============================================================ */
 
 document
     .querySelectorAll(
         "[data-close]"
     )
-    .forEach(
-        botao => {
+    .forEach(button => {
 
-            botao.onclick =
-            function() {
+        button.addEventListener(
+            "click",
+            () => {
 
-                document
-                    .getElementById(
-                        this.dataset.close
-                    )
-                    .classList
-                    .add("hidden");
+                closeModal(
+                    button.dataset.close
+                );
 
-            };
+            }
+        );
 
+    });
+
+
+document
+    .querySelectorAll(".modal")
+    .forEach(modal => {
+
+        modal.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    modal
+                ) {
+
+                    modal.classList.add(
+                        "hidden"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+$("logoutBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            loggedUser = null;
+
+            adminUBS = null;
+
+            sessionStorage.removeItem(
+                STORAGE.SESSION
+            );
+
+            closeModal(
+                "panelModal"
+            );
+
+            $("loginForm").reset();
+
+            showToast(
+                "Sessão encerrada."
+            );
         }
     );
+
+
+/* ============================================================
+   RESTAURAR SESSÃO
+============================================================ */
+
+function restoreSession() {
+
+    const saved =
+        sessionStorage.getItem(
+            STORAGE.SESSION
+        );
+
+
+    if (!saved) return;
+
+
+    try {
+
+        loggedUser =
+            JSON.parse(saved);
+
+
+        if (
+            loggedUser.type ===
+            "developer"
+        ) {
+
+            adminUBS =
+                ubsList[0];
+
+        } else {
+
+            adminUBS =
+                ubsList.find(
+                    item =>
+                        item.id ===
+                        loggedUser.ubsId
+                );
+        }
+
+    } catch {
+
+        sessionStorage.removeItem(
+            STORAGE.SESSION
+        );
+
+    }
+}
+
+
+/* ============================================================
+   INICIALIZAÇÃO
+============================================================ */
+
+function init() {
+
+    renderUBS();
+
+    updateSteps(1);
+
+    restoreSession();
+
+    /*
+        Verifica lembretes enquanto
+        a página estiver aberta.
+    */
+
+    setTimeout(
+        checkReminders,
+        1000
+    );
+}
+
+
+init();
